@@ -1,16 +1,15 @@
 public class Goose extends Sprite
 {
   private float x;
-  private int speed; 
+  private float speed; 
   
-  public Goose (float x, int speed)
+  public Goose (float x, float speed)
   {
-     super("/Users/miaandreu/Desktop/SpriteLab_Challenging/data/goose.png", 0.3);
+     super("goose.jpg", 0.3);
      this.x = x;
      this.speed = speed; 
     
   }
-  
   
   public void display()
   {

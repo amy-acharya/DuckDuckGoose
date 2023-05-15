@@ -1,11 +1,11 @@
 public class Duck extends Sprite
 {
   private float x;
-  private int speed; 
+  private float speed; 
   
-  public Duck (float x, int speed)
+  public Duck (float x, float speed)
   {
-     super("/Users/miaandreu/Desktop/SpriteLab_Challenging/data/duck.png", 0.3);
+     super("duck.jpg", 0.3);
      this.x = x;
      this.speed = speed; 
   }
@@ -15,9 +15,14 @@ public class Duck extends Sprite
     image(image, x, center_y, w, h);
   }
   
-   public void update()
-   {
+  public void update()
+  {
      center_y += speed + change_y;
-   }
+  }
+
+  // TEST THIS FUNCTION
+  public void hide() {
+    image(image, 0, 0, 0, 0);
+  }
   
 }

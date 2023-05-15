@@ -1,4 +1,4 @@
-public class Sprite{
+public class Sprite {
   PImage image;
   float center_x, center_y;
   float change_x, change_y;
@@ -40,10 +40,3 @@ public class Sprite{
       
   }
 }
-
-
-
-
-
-
-
