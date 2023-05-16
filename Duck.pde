@@ -19,7 +19,7 @@ public class Duck extends Sprite
   {
      center_y += speed + change_y;
      if (center_y >= height) {
-      center_y = 0
+      center_y = 0;
      }
   }
 
@@ -34,6 +34,14 @@ public class Duck extends Sprite
 
   public void setSpeed(int s) {
     speed = s;
+  }
+
+  public float getXPos() {
+    return x;
+  }
+
+  public float getYPos() {
+    return center_y;
   }
   
 }

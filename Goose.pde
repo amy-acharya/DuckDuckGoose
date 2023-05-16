@@ -23,5 +23,20 @@ public class Goose extends Sprite
    {
      center_y += speed + change_y;
    }
+   
+    public boolean isTouchingGoose(Goose g) {
+        float xPos = (x + super.getWidth() / 2);
+        float yPos = height - 100; 
+        float gooseXPos = g.getXPos();
+        float gooseYPos = g.getYPos() + g.getHeight() / 2;
+        float xBuffer = super.getWidth() / 2 + g.getWidth() / 2;
+
+        if (Math.abs(xPos - gooseXPos) < xBuffer) {
+            if (Math.abs(yPos - gooseYPos) < 10) {
+                return true;
+            }
+        }
+        return false;
+    }
   
 }

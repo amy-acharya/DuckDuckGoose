@@ -36,6 +36,13 @@ void draw(){
 
     geese[i].display();
     geese[i].update();
+
+    if (player.isTouchingDuck()) {
+      player.incrementScore();
+    }
+    if (player.isTouchingGoose()) {
+      player.setAlive(false);
+    }
   } 
 } 
 

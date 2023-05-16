@@ -39,4 +39,20 @@ public class Sprite {
       center_y += 2 + change_y;
       
   }
+
+  public float getWidth() {
+    return w;
+  }
+
+  public float getHeight() {
+    return h;
+  }
+
+  public float getXPos() {
+    return center_x;
+  }
+  
+  public float getYPos() {
+    return center_y;
+  }
 }

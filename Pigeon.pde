@@ -24,7 +24,7 @@ public class Pigeon extends Sprite {
 
         // collision with wall
         if (x >= width) {
-            x = width;
+            x = width - super.getWidth();
         }
     }
 
@@ -48,5 +48,32 @@ public class Pigeon extends Sprite {
 
     public void setScore(int s) {
         score = s;
+    }
+
+    public boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean a) {
+        alive = a;
+    }
+
+    public boolean isTouchingDuck(Duck d) {
+        float xPos = (x + super.getWidth() / 2);
+        float yPos = height - 100; 
+        float duckXPos = d.getXPos();
+        float duckYPos = d.getYPos() + d.getHeight() / 2;
+        float xBuffer = super.getWidth() / 2 + d.getWidth() / 2;
+
+        if (Math.abs(xPos - duckXPos) < xBuffer) {
+            if (Math.abs(yPos - duckYPos) < 10) {
+                return true;
+            }
+        }
+        return false;
+
+        // loadPixels(d);
+        // color c = pixels[yPos * width + xPos];
+        // color c = get(xPos, yPos);
     }
 }
