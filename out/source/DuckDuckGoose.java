@@ -15,20 +15,20 @@ import java.io.IOException;
 
 public class DuckDuckGoose extends PApplet {
 
-//declare global variables
+// declare global variables
 Pigeon player;
-//Sprite duck, goose, ducky, gose;
 Duck[] ducks;
 Goose[] geese;
 int numSprites;
 
-//initialize them in setup().
+// initialize them in setup().
 public void setup(){
   /* size commented out by preprocessor */; // reserved variables width = 800, height = 600
   imageMode(CENTER);
 
   player = new Pigeon(400.0f, 3.0f);
 
+  // can be changed depending on how many ducks/geese we want
   numSprites = 5;
 
   ducks = new Duck[numSprites];
@@ -39,16 +39,6 @@ public void setup(){
     ducks[i] = new Duck(random(800), random(1, 3));
     geese[i] = new Goose(random(800), random(1, 2));
   }
-
-  // create player sprite with small scale(e.g. 0.5).
-  // duck = new Sprite ("duck.jpg", 0.3, 100, 100);
-  
-  // goose = new Sprite ("goose.jpg", 0.3, 450, 50);
-  // Use reserved variables width, height to position this sprite.
-  
-  // ducky = new Duck(600, 3);
-  // gose = new Goose(200, 2);
-
 }
 
 // modify and update them in draw().
@@ -63,21 +53,7 @@ public void draw(){
 
     geese[i].display();
     geese[i].update();
-  }
-  
-  // display and update s1 and s2.
-  // duck.display();
-  // duck.update();
-  
-  // ducky.display();
-  // ducky.update();
-   
-  // goose.display();
-  // goose.update();
-  
-  // gose.display();
-  // gose.update();
-  
+  } 
 } 
 
 // control pigeon using arrow keys
@@ -91,6 +67,27 @@ public void keyPressed() {
     }
   }
 }
+
+
+/*
+TO DO:
+
+- collisions
+  - stacking
+- track score
+- splash screen w/ three buttons - start, how to play, history
+- level up when touching the top
+  - how to make each progressive level harder
+- animate sprites
+- sprites can go off the screen - fix?
+
+- getter/setter methods
+- search method for array
+- nested for loop
+- recursive formula/function
+- execution of how game operates
+- creative twist on history of game
+*/
 public class Duck extends Sprite
 {
   private float x;
@@ -171,8 +168,6 @@ public class Pigeon extends Sprite {
      x += speed + change_x;
    }
 }
-
-
 public class Sprite {
   PImage image;
   float center_x, center_y;

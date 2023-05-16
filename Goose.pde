@@ -14,6 +14,9 @@ public class Goose extends Sprite
   public void display()
   {
     image(image, x, center_y, w, h);
+    if (center_y >= height) {
+      center_y = 0;
+    }
   }
   
    public void update()

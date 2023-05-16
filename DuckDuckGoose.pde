@@ -9,7 +9,7 @@ void setup(){
   size(800, 600); // reserved variables width = 800, height = 600
   imageMode(CENTER);
 
-  player = new Pigeon(400.0, 3.0);
+  player = new Pigeon(width / 2.0, 3.0);
 
   // can be changed depending on how many ducks/geese we want
   numSprites = 5;
@@ -19,8 +19,8 @@ void setup(){
 
   for (int i = 0; i < numSprites; i++) {
 
-    ducks[i] = new Duck(random(800), random(1, 3));
-    geese[i] = new Goose(random(800), random(1, 2));
+    ducks[i] = new Duck(random(width), random(1, 3));
+    geese[i] = new Goose(random(width), random(1, 2));
   }
 }
 
@@ -55,16 +55,17 @@ void keyPressed() {
 /*
 TO DO:
 
-- collisions
+- collisions - check for color collision
   - stacking
 - track score
+  - increment when collision w/ duck
+  - reset after collision w/ goose
 - splash screen w/ three buttons - start, how to play, history
 - level up when touching the top
   - how to make each progressive level harder
 - animate sprites
 - sprites can go off the screen - fix?
 
-- getter/setter methods
 - search method for array
 - nested for loop
 - recursive formula/function
