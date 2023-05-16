@@ -2,13 +2,21 @@ public class Goose extends Sprite
 {
   private float x;
   private float speed; 
+  private boolean random;
   
   public Goose (float x, float speed)
   {
      super("goose.jpg", 0.3);
      this.x = x;
      this.speed = speed; 
-    
+     this.random = false;
+  }
+  
+  public Goose (float maxSpeed) {
+    super("goose.jpg", 0.3);
+    this.speed = random(1, maxSpeed);
+    this.x = random(0, width);
+    this.random = true;
   }
   
   public void display()
@@ -20,23 +28,35 @@ public class Goose extends Sprite
   }
   
    public void update()
-   {
-     center_y += speed + change_y;
-   }
-   
-    public boolean isTouchingGoose(Goose g) {
-        float xPos = (x + super.getWidth() / 2);
-        float yPos = height - 100; 
-        float gooseXPos = g.getXPos();
-        float gooseYPos = g.getYPos() + g.getHeight() / 2;
-        float xBuffer = super.getWidth() / 2 + g.getWidth() / 2;
-
-        if (Math.abs(xPos - gooseXPos) < xBuffer) {
-            if (Math.abs(yPos - gooseYPos) < 10) {
-                return true;
-            }
-        }
-        return false;
+    {
+        center_y += speed + change_y;
+        if (center_y >= height) {
+            reset();
+        } 
     }
+
+    public void reset() {
+        center_y = 0;
+        if (random) {
+            x = random(0, width);
+            speed = random(1, speed);
+        }
+    }
+
+   public float getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(int s) {
+    speed = s;
+  }
+
+  public float getXPos() {
+    return x;
+  }
+
+  public float getYPos() {
+    return center_y;
+  }
   
 }

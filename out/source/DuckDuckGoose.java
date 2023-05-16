@@ -23,60 +23,67 @@ int numSprites;
 
 // initialize them in setup().
 public void setup(){
-  /* size commented out by preprocessor */; // reserved variables width = 800, height = 600
-  imageMode(CENTER);
+    /* size commented out by preprocessor */; // reserved variables width = 800, height = 600
+    imageMode(CENTER);
 
-  player = new Pigeon(width / 2.0f, 3.0f);
+      player = new Pigeon(width / 2.0f, 3.0f);
 
-  // can be changed depending on how many ducks/geese we want
-  numSprites = 5;
+    // can be changed depending on how many ducks/geese we want
+    numSprites = 5;
 
-  ducks = new Duck[numSprites];
-  geese = new Goose[numSprites];
+      ducks = new Duck[numSprites];
+    geese = new Goose[numSprites];
 
-  for (int i = 0; i < numSprites; i++) {
+    for (int i = 0; i < numSprites; i++) {
 
-    ducks[i] = new Duck(random(width), random(1, 3));
-    geese[i] = new Goose(random(width), random(1, 2));
-  }
+        ducks[i] = new Duck(3);
+        geese[i] = new Goose(2);
+    }
 }
 
 // modify and update them in draw().
 public void draw(){
-  background(255);
+    background(255);
 
-  player.display();
+    player.display();
 
-  for (int i = 0; i < numSprites; i++) {
-    ducks[i].display();
-    ducks[i].update();
-    System.out.println(player.isTouchingDuck(ducks[i]) + " " + i);
-    if (player.isTouchingDuck(ducks[i])) {
-      exit();
-    }
+    for (int i = 0; i < numSprites; i++) {
+        ducks[i].display();
+        ducks[i].update();
 
-    geese[i].display();
-    geese[i].update();
-  } 
+        geese[i].display();
+        geese[i].update();
+
+        if (player.isTouchingDuck(ducks[i])) {
+            ducks[i].reset();
+            player.incrementScore();
+        }
+        if (player.isTouchingGoose(geese[i])) {
+            geese[i].reset();
+            player.setScore(0);
+            player.setAlive(false);
+        }
+    } 
+    System.out.println(player.getScore());
 } 
 
 // control pigeon using arrow keys
 public void keyPressed() {
-  if (key == CODED) {
-    if (keyCode == LEFT) {
-      player.moveLeft();
+    if (key == CODED) {
+        if (keyCode == LEFT) {
+            player.moveLeft();
+        }
+        else if (keyCode == RIGHT) {
+            player.moveRight();
+        }
     }
-    else if (keyCode == RIGHT) {
-      player.moveRight();
-    }
-  }
 }
 
 
 /*
 TO DO:
 
-- collisions - check for color collision
+- collisions - TEST COLLISION CHECKING
   - stacking
 - track score
   - increment when collision w/ duck
@@ -86,6 +93,9 @@ TO DO:
   - how to make each progressive level harder
 - animate sprites
 - sprites can go off the screen - fix?
+  - fixed for pigeon
+- consolidate duck and goose classes into falling sprites?
+  - better class management
 
 - search method for array
 - nested for loop
@@ -97,12 +107,21 @@ public class Duck extends Sprite
 {
   private float x;
   private float speed; 
+  private boolean random;
   
   public Duck (float x, float speed)
   {
-     super("duck.jpg", 0.3f);
-     this.x = x;
-     this.speed = speed; 
+    super("duck.jpg", 0.3f);
+    this.x = x;
+    this.speed = speed;
+    this.random = false;
+  }
+  
+  public Duck (float maxSpeed) {
+    super("duck.jpg", 0.3f);
+    this.speed = random(1, maxSpeed);
+    this.x = random(0, width);
+    this.random = true;
   }
   
   public void display()
@@ -110,13 +129,21 @@ public class Duck extends Sprite
     image(image, x, center_y, w, h);
   }
   
-  public void update()
-  {
-     center_y += speed + change_y;
-     if (center_y >= height) {
-      center_y = 0;
-     }
-  }
+    public void update()
+    {
+        center_y += speed + change_y;
+        if (center_y >= height) {
+            reset();
+        } 
+    }
+
+    public void reset() {
+        center_y = 0;
+        if (random) {
+            x = random(0, width);
+            speed = random(1, speed);
+        }
+    }
 
   // TEST THIS FUNCTION
   public void hide() {
@@ -144,13 +171,21 @@ public class Goose extends Sprite
 {
   private float x;
   private float speed; 
+  private boolean random;
   
   public Goose (float x, float speed)
   {
      super("goose.jpg", 0.3f);
      this.x = x;
      this.speed = speed; 
-    
+     this.random = false;
+  }
+  
+  public Goose (float maxSpeed) {
+    super("goose.jpg", 0.3f);
+    this.speed = random(1, maxSpeed);
+    this.x = random(0, width);
+    this.random = true;
   }
   
   public void display()
@@ -162,9 +197,36 @@ public class Goose extends Sprite
   }
   
    public void update()
-   {
-     center_y += speed + change_y;
-   }
+    {
+        center_y += speed + change_y;
+        if (center_y >= height) {
+            reset();
+        } 
+    }
+
+    public void reset() {
+        center_y = 0;
+        if (random) {
+            x = random(0, width);
+            speed = random(1, speed);
+        }
+    }
+
+   public float getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(int s) {
+    speed = s;
+  }
+
+  public float getXPos() {
+    return x;
+  }
+
+  public float getYPos() {
+    return center_y;
+  }
   
 }
 public class Level {
@@ -189,8 +251,8 @@ public class Pigeon extends Sprite {
     private float speed;
     private boolean alive;
     int score;
-
-    public Pigeon (float x, float speed)
+    
+    public Pigeon(float x, float speed)
     {
         super("pigeon.png", 0.2f);
         this.x = x;
@@ -198,70 +260,84 @@ public class Pigeon extends Sprite {
         this.alive = true;
         this.score = 0;
     }
-  
+    
     public void display()
     {
         image(image, x, height - 100, w, h);
     }
-  
+    
     public void moveLeft()
     {
         x -= speed + change_x;
-
-        // collision with wall
-        if (x >= width) {
-            x = width - super.getWidth();
-        }
-    }
-
-    public void moveRight()
-    {
-        x += speed + change_x;
-
+        
         // collision with wall
         if (x <= 0) {
             x = 0;
         }
     }
-
+    
+    public void moveRight()
+    {
+        x += speed + change_x;
+        
+        // collision with wall
+        if (x >= width) {
+            x = width;
+        }
+    }
+    
     public void incrementScore() {
         score++;
     }
-
+    
     public int getScore() {
         return score;
     }
-
+    
     public void setScore(int s) {
         score = s;
     }
-
+    
+    public boolean getAlive() {
+        return alive;
+    }
+    
+    public void setAlive(boolean a) {
+        alive = a;
+    }
+    
     public boolean isTouchingDuck(Duck d) {
         float xPos = (x + super.getWidth() / 2);
-        float yPos = height - 100; //- super.getHeight();
+        float yPos = height - 100; 
         float duckXPos = d.getXPos();
         float duckYPos = d.getYPos() + d.getHeight() / 2;
         float xBuffer = super.getWidth() / 2 + d.getWidth() / 2;
-
-        // System.out.println("xPos " + xPos);
-        // System.out.println("duck x " + duckXPos);
-        // System.out.println("xbuffer " + xBuffer);
-
-        System.out.println("yPos " + yPos);
-        System.out.println("duck y " + duckYPos);
-
+        
         if (Math.abs(xPos - duckXPos) < xBuffer) {
-            System.out.println("in outer if");
             if (Math.abs(yPos - duckYPos) < 10) {
-                System.out.println("in inner if");
                 return true;
             }
         }
         return false;
-
+        
         // loadPixels(d);
         // color c = pixels[yPos * width + xPos];
         // color c = get(xPos, yPos);
+    }
+    
+    public boolean isTouchingGoose(Goose g) {
+        float xPos = (x + super.getWidth() / 2);
+        float yPos = height - 100; 
+        float gooseXPos = g.getXPos();
+        float gooseYPos = g.getYPos() + g.getHeight() / 2;
+        float xBuffer = super.getWidth() / 2 + g.getWidth() / 2;
+        
+        if (Math.abs(xPos - gooseXPos) < xBuffer) {
+            if (Math.abs(yPos - gooseYPos) < 10) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 public class Sprite {
