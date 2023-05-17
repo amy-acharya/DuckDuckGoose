@@ -63,8 +63,8 @@ public void setup(){
 public void draw(){
   if (started){
   background(255);
-  gameScreen();
-   //player.display();
+
+   player.display();
 
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
@@ -93,11 +93,10 @@ public void draw(){
 public void keyPressed() {
 
   if(started == false){
-    if (keyPressed){
+      if (key == RETURN || key == ENTER){
       started = true;
       }
     }
-  
   
   if (key == CODED) {
     if (keyCode == LEFT) {
@@ -111,40 +110,15 @@ public void keyPressed() {
 }
 
 public void initScreen(){
-  title = createFont("Koho-Regular", 80, true);
+  title = createFont("Times New Roman", 80, true);
   textFont(title);
   textAlign(CENTER);
   fill(0);
   text ("Duck Duck Goose", 950, 210);
-  sub = createFont("Koho-Regular", 25, true);
+  sub = createFont("Times New Roman", 25, true);
   textFont(sub);
-  text ("press any key to start", 950, 255);
+  text ("press enter to start", 950, 255);
 }
-
-public void gameScreen(){
-   player.display();
-
-    for (int i = 0; i < numSprites; i++) {
-        ducks[i].display();
-        ducks[i].update();
-
-        geese[i].display();
-        geese[i].update();
-
-        if (player.isTouchingDuck(ducks[i])) {
-            ducks[i].reset();
-            player.incrementScore();
-        }
-        if (player.isTouchingGoose(geese[i])) {
-            geese[i].reset();
-            player.setScore(0);
-            player.setAlive(false);
-        }
-
-}
-}
-
-
 
 /*
 TO DO:
