@@ -15,7 +15,7 @@ public class Pigeon extends Sprite {
     
     public void display()
     {
-        image(image, x, height - 100, w, h);
+        image(image, x, height - 130, w, h);
     }
     
     public void moveLeft()
