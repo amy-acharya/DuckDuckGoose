@@ -3,32 +3,50 @@ Pigeon player;
 Duck[] ducks;
 Goose[] geese;
 int numSprites;
+PFont title, sub;
+PImage startscreen;
+int  stage;
+boolean started = false;
 
 // initialize them in setup().
 void setup(){
-    size(800, 600); // reserved variables width = 800, height = 600
-    imageMode(CENTER);
+ 
+ size(1400, 750);
 
-      player = new Pigeon(width / 2.0, 3.0);
+if (started){
+  player = new Pigeon(width / 2.0, 3.0);
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
 
-      ducks = new Duck[numSprites];
+    ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
-
-    for (int i = 0; i < numSprites; i++) {
+    int i;
+    for (i = 0; i < numSprites; i++) {
 
         ducks[i] = new Duck(3);
         geese[i] = new Goose(2);
     }
-}
+    ducks[i] = new Duck(random(width), random(1, 3));
+    geese[i] = new Goose(random(width), random(1, 2));
+    }
+
+ 
+  startscreen = loadImage("farmScreen.jpg");
+  image(startscreen, 0,0, 1400, 750);
+  initScreen();
+
+} 
+
+
 
 // modify and update them in draw().
 void draw(){
-    background(255);
+  
+  if (started){
+  background(255);
 
-    player.display();
+   //player.display();
 
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
@@ -37,7 +55,7 @@ void draw(){
         geese[i].display();
         geese[i].update();
 
-        if (player.isTouchingDuck(ducks[i])) {
+        /*if (player.isTouchingDuck(ducks[i])) {
             ducks[i].reset();
             player.incrementScore();
         }
@@ -45,22 +63,41 @@ void draw(){
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
-        }
+        }*/
     } 
     // System.out.println(player.getScore());
 } 
+}
 
 // control pigeon using arrow keys
 void keyPressed() {
-    if (key == CODED) {
-        if (keyCode == LEFT) {
-            player.moveLeft();
-        }
-        else if (keyCode == RIGHT) {
-            player.moveRight();
-        }
+  if(keyPressed){
+    started = true;
+  }
+  
+  if (key == CODED) {
+    if (keyCode == LEFT) {
+      player.moveLeft();
     }
+    else if (keyCode == RIGHT) {
+      player.moveRight();
+
+  }
 }
+}
+
+void initScreen(){
+  title = createFont("Koho-Regular", 80, true);
+  textFont(title);
+  textAlign(CENTER);
+  fill(0);
+  text ("Duck Duck Goose", 950, 210);
+  sub = createFont("Koho-Regular", 25, true);
+  textFont(sub);
+  text ("press any key to start", 950, 255);
+  stage = 1;
+}
+
 
 
 /*
