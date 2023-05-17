@@ -30,7 +30,6 @@ public void setup(){
  
  /* size commented out by preprocessor */;
 
-if (started){
   player = new Pigeon(width / 2.0f, 3.0f);
 
     // can be changed depending on how many ducks/geese we want
@@ -38,15 +37,17 @@ if (started){
 
     ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
-    int i;
-    for (i = 0; i < numSprites; i++) {
+    
+    for (int i = 0; i < numSprites; i++) {
 
         ducks[i] = new Duck(3);
         geese[i] = new Goose(2);
-    }
+    
     ducks[i] = new Duck(random(width), random(1, 3));
     geese[i] = new Goose(random(width), random(1, 2));
     }
+
+
 
  
   startscreen = loadImage("farmScreen.jpg");
@@ -57,12 +58,12 @@ if (started){
 
 
 
+
 // modify and update them in draw().
 public void draw(){
-  
   if (started){
   background(255);
-
+  gameScreen();
    //player.display();
 
     for (int i = 0; i < numSprites; i++) {
@@ -72,7 +73,7 @@ public void draw(){
         geese[i].display();
         geese[i].update();
 
-        /*if (player.isTouchingDuck(ducks[i])) {
+        if (player.isTouchingDuck(ducks[i])) {
             ducks[i].reset();
             player.incrementScore();
         }
@@ -80,17 +81,23 @@ public void draw(){
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
-        }*/
-    } 
+        }
+    //} 
     // System.out.println(player.getScore());
 } 
 }
+}
+
 
 // control pigeon using arrow keys
 public void keyPressed() {
-  if(keyPressed){
-    started = true;
-  }
+
+  if(started == false){
+    if (keyPressed){
+      started = true;
+      }
+    }
+  
   
   if (key == CODED) {
     if (keyCode == LEFT) {
@@ -112,7 +119,29 @@ public void initScreen(){
   sub = createFont("Koho-Regular", 25, true);
   textFont(sub);
   text ("press any key to start", 950, 255);
-  stage = 1;
+}
+
+public void gameScreen(){
+   player.display();
+
+    for (int i = 0; i < numSprites; i++) {
+        ducks[i].display();
+        ducks[i].update();
+
+        geese[i].display();
+        geese[i].update();
+
+        if (player.isTouchingDuck(ducks[i])) {
+            ducks[i].reset();
+            player.incrementScore();
+        }
+        if (player.isTouchingGoose(geese[i])) {
+            geese[i].reset();
+            player.setScore(0);
+            player.setAlive(false);
+        }
+
+}
 }
 
 
@@ -300,7 +329,7 @@ public class Pigeon extends Sprite {
     
     public void display()
     {
-        image(image, x, height - 100, w, h);
+        image(image, x, height - 130, w, h);
     }
     
     public void moveLeft()
