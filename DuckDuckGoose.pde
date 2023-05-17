@@ -9,12 +9,10 @@ int  stage;
 boolean started = false;
 
 // initialize them in setup().
-void setup(){
- 
- size(1400, 750);
+
 void setup() {
     size(1400, 750); // reserved variables width = 800, height = 600
-    imageMode(CENTER);
+  
 
     player = new Pigeon(width / 2.0, 3.0);
 
@@ -40,6 +38,8 @@ void setup() {
   initScreen();
 
 } 
+
+
 
 
 
