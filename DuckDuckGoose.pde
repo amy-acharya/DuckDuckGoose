@@ -12,8 +12,11 @@ boolean started = false;
 void setup(){
  
  size(1400, 750);
+void setup() {
+    size(1400, 750); // reserved variables width = 800, height = 600
+    imageMode(CENTER);
 
-  player = new Pigeon(width / 2.0, 3.0);
+    player = new Pigeon(width / 2.0, 3.0);
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
@@ -22,7 +25,6 @@ void setup(){
     geese = new Goose[numSprites];
     
     for (int i = 0; i < numSprites; i++) {
-
         ducks[i] = new Duck(3);
         geese[i] = new Goose(2);
     
@@ -106,17 +108,15 @@ void initScreen(){
 /*
 TO DO:
 
-- collisions - TEST COLLISION CHECKING
+- collisions - FINISHED
   - stacking
-- track score - FINISHED
-  - increment when collision w/ duck
-  - reset after collision w/ goose
 - splash screen w/ three buttons - start, how to play, history
 - level up when touching the top
   - how to make each progressive level harder
 - animate sprites
 - sprites can go off the screen - fix?
   - fixed for pigeon
+- speed up pigeon/fix janky mechanics
 - consolidate duck and goose classes into falling sprites?
   - better class management
 
