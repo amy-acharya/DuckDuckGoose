@@ -1,5 +1,6 @@
 public class Pigeon extends Sprite {
     private float x;
+    private float y;
     private float speed;
     private boolean alive;
     int score;
@@ -8,6 +9,7 @@ public class Pigeon extends Sprite {
     {
         super("pigeon.png", 0.2);
         this.x = x;
+        this.y = height - 150;
         this.speed = speed; 
         this.alive = true;
         this.score = 0;
@@ -15,7 +17,7 @@ public class Pigeon extends Sprite {
     
     public void display()
     {
-        image(image, x, height - 130, w, h);
+        image(image, x, y, w, h);
     }
     
     public void moveLeft()
@@ -50,17 +52,21 @@ public class Pigeon extends Sprite {
         score = s;
     }
     
-    public boolean getAlive() {
+    public boolean isAlive() {
         return alive;
     }
     
     public void setAlive(boolean a) {
         alive = a;
     }
+
+    public float getPigeonY() {
+        return y;
+    }
     
     public boolean isTouchingDuck(Duck d) {
         float xPos = (x + super.getWidth() / 2);
-        float yPos = height - 100; 
+        float yPos = y; 
         float duckXPos = d.getXPos();
         float duckYPos = d.getYPos() + d.getHeight() / 2;
         float xBuffer = super.getWidth() / 2 + d.getWidth() / 2;
@@ -79,7 +85,7 @@ public class Pigeon extends Sprite {
     
     public boolean isTouchingGoose(Goose g) {
         float xPos = (x + super.getWidth() / 2);
-        float yPos = height - 100; 
+        float yPos = y; 
         float gooseXPos = g.getXPos();
         float gooseYPos = g.getYPos() + g.getHeight() / 2;
         float xBuffer = super.getWidth() / 2 + g.getWidth() / 2;
@@ -90,5 +96,9 @@ public class Pigeon extends Sprite {
             }
         }
         return false;
+    }
+
+    public void stackDuck() {
+        // stick a duck under the pigeon
     }
 }

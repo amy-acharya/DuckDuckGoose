@@ -14,4 +14,11 @@ public class Level {
     public void display() {
         text("Level " + num, 0, 0);
     }
+
+    public void initLevel(Pigeon p) {
+        // draw ground
+        noStroke();
+        fill(198, 255, 138);
+        //rect(0, p.getPigeonY(), width, height - p.getPigeonY());
+    }
 }
