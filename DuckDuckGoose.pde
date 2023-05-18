@@ -10,11 +10,13 @@ int level;
 boolean started = false;
 
 // initialize them in setup().
+
 void setup() {
     // for (int z = 0; z < PFont.list().length; z++) {
     //     System.out.println(PFont.list()[z]);
     // }
     size(1400, 750); // reserved variables width = 800, height = 600
+  
 
     player = new Pigeon(width / 2.0, 5.0);
 
@@ -86,16 +88,15 @@ void keyPressed() {
 }
 
 void initScreen(){
-  title = createFont("Koho-Regular", 80, true);
+  title = createFont("Times New Roman", 80, true);
   textFont(title);
   textAlign(CENTER);
   fill(0);
   text ("Duck Duck Goose", 950, 210);
-  sub = createFont("Koho-Regular", 25, true);
+  sub = createFont("Times New Roman", 25, true);
   textFont(sub);
   text ("press enter to start", 950, 255);
 }
-
 
 /*
 TO DO:
