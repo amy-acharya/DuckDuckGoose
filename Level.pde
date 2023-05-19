@@ -1,12 +1,12 @@
 public class Level {
     private int num;
-    private float fallSpeed;
+    private float fallSpeedMultiplier;
     private int nSprites;
     private int scoreNeeded;
 
-    public Level (int num, float fallSpeed, int nSprites, int scoreNeeded) {
+    public Level (int num, float fallSpeedMultiplier, int nSprites, int scoreNeeded) {
         this.num = num;
-        this.fallSpeed = fallSpeed;
+        this.fallSpeedMultiplier = fallSpeedMultiplier;
         this.nSprites = nSprites;
         this.scoreNeeded = scoreNeeded;
     }
@@ -16,9 +16,15 @@ public class Level {
     }
 
     public void initLevel(Pigeon p) {
-        // draw ground
         noStroke();
+        colorMode(RGB, 255, 255, 255);
         fill(198, 255, 138);
-        //rect(0, p.getPigeonY(), width, height - p.getPigeonY());
+        // hardcode for now until I can find a fix
+        rect(0, height - 150, width, 250);
+        //rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
+    }
+
+    public int getScoreNeeded() {
+        return scoreNeeded;
     }
 }

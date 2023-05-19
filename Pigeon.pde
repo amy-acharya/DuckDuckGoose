@@ -3,16 +3,19 @@ public class Pigeon extends Sprite {
     private float y;
     private float speed;
     private boolean alive;
-    int score;
+    private int score;
+    private ArrayList<PImage> duckStack;
+
     
     public Pigeon(float x, float speed)
     {
         super("pigeon.png", 0.2);
         this.x = x;
-        this.y = height - 150;
+        this.y = height - 250;
         this.speed = speed; 
         this.alive = true;
         this.score = 0;
+        duckStack = new ArrayList<PImage>();
     }
     
     public void display()
@@ -98,7 +101,23 @@ public class Pigeon extends Sprite {
         return false;
     }
 
-    public void stackDuck() {
-        // stick a duck under the pigeon
+    public void addToStack(Duck d) {
+        PImage newDuck = loadImage("duck.jpg");
+        duckStack.add(newDuck);
+        y -= d.getHeight();
+    }
+
+    public void displayStack(Duck d) {
+        if (duckStack.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < duckStack.size(); i++) {
+            image(duckStack.get(i), x, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
+        }
+    }
+
+    public void resetStack() {
+        y = height - 250;
+        duckStack.clear();
     }
 }

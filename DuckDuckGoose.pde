@@ -8,6 +8,8 @@ PImage startscreen;
 int stage;
 int level;
 boolean started = false;
+Level gameLevel;
+boolean levelStarted = false;
 
 // initialize them in setup().
 
@@ -25,24 +27,42 @@ void setup() {
 
     ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
-    
+
     for (int i = 0; i < numSprites; i++) {
         ducks[i] = new Duck(3);
         geese[i] = new Goose(2);
     }
-  startscreen = loadImage("farmScreen.jpg");
-  image(startscreen, 0,0, width, height);
-  initScreen();
+
+    gameLevel = new Level(level, 1.0, numSprites, 10);
+    startscreen = loadImage("farmScreen.jpg");
+    image(startscreen, 0,0, width, height);
+    initScreen();
 
 } 
 
 // modify and update them in draw().
-void draw(){
+void draw() {
   if (started) {
+    
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 10), 100);
     colorMode(RGB);
+
+    gameLevel.initLevel(player);
+
+    // 14 ducks to reach the top
+
+    // if (!levelStarted) {
+    //   colorMode(HSB, 360, 100, 100);
+    //   background(186, 15 + (level * 10), 100);
+    //   colorMode(RGB);
+
+    //   gameLevel.initLevel(player);
+    //   levelStarted = true;
+    // }
+    
     player.display();
+    gameLevel.display();
 
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
@@ -53,29 +73,31 @@ void draw(){
 
         if (player.isTouchingDuck(ducks[i])) {
             ducks[i].reset();
+            player.addToStack(ducks[i]);
             player.incrementScore();
         }
+
         if (player.isTouchingGoose(geese[i])) {
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
+            player.resetStack();
         }
-    //} 
-    // System.out.println(player.getScore());
-} 
-}
-}
+    }
 
+    player.displayStack(ducks[0]); 
+  }
+  System.out.println(player.getScore());
+}
 
 // control pigeon using arrow keys
 void keyPressed() {
-
-  if(!started){
+  if (!started){
     if (key == ENTER || key == RETURN){
       started = true;
       level = 1; // find the best place to set the level
-      }
     }
+  }
   
   if (key == CODED) {
     if (keyCode == LEFT) {
@@ -83,8 +105,8 @@ void keyPressed() {
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
+    }
   }
-}
 }
 
 void initScreen(){
@@ -101,8 +123,6 @@ void initScreen(){
 /*
 TO DO:
 
-- collisions - FINISHED
-  - stacking
 - splash screen w/ three buttons - start, how to play (i), history (h)
   - character select if we have time?
 - level up when touching the top
@@ -113,9 +133,13 @@ TO DO:
 - sprites can go off the screen - fix?
   - fixed for pigeon
 - speed up pigeon/fix janky mechanics
+- unjankify collisions/stacking
+  - lil space between the ground and the lowest duck
 - consolidate duck and goose classes into falling sprites?
   - better class management
 - figure out the font
+- audrey wants to add guns
+- power ups
 
 - search method for array
 - nested for loop
