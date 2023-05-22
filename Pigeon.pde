@@ -66,41 +66,26 @@ public class Pigeon extends Sprite {
     public float getPigeonY() {
         return y;
     }
-    
-    public boolean isTouchingDuck(Duck d) {
+
+    public boolean isTouching(Sprite s) {
         float xPos = (x + super.getWidth() / 2);
         float yPos = y; 
-        float duckXPos = d.getXPos();
-        float duckYPos = d.getYPos() + d.getHeight() / 2;
-        float xBuffer = super.getWidth() / 2 + d.getWidth() / 2;
+        float spriteXPos = s.getXPos();
+        float spriteYPos = s.getYPos() + s.getHeight() / 2;
+        float xBuffer = super.getWidth() / 2 + s.getWidth() / 2;
         
-        if (Math.abs(xPos - duckXPos) < xBuffer) {
-            if (Math.abs(yPos - duckYPos) < 10) {
+        if (Math.abs(xPos - spriteXPos) < xBuffer) {
+            if (Math.abs(yPos - spriteYPos) < 10) {
                 return true;
             }
         }
         return false;
-        
+
         // loadPixels(d);
         // color c = pixels[yPos * width + xPos];
         // color c = get(xPos, yPos);
     }
     
-    public boolean isTouchingGoose(Goose g) {
-        float xPos = (x + super.getWidth() / 2);
-        float yPos = y; 
-        float gooseXPos = g.getXPos();
-        float gooseYPos = g.getYPos() + g.getHeight() / 2;
-        float xBuffer = super.getWidth() / 2 + g.getWidth() / 2;
-        
-        if (Math.abs(xPos - gooseXPos) < xBuffer) {
-            if (Math.abs(yPos - gooseYPos) < 10) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void addToStack(Duck d) {
         PImage newDuck = loadImage("duck.jpg");
         duckStack.add(newDuck);
@@ -112,6 +97,7 @@ public class Pigeon extends Sprite {
             return;
         }
         for (int i = 0; i < duckStack.size(); i++) {
+            // AAAAAAAAAAAAAAAAAAA
             image(duckStack.get(i), x, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
         }
     }

@@ -2,13 +2,11 @@ public class Level {
     private int num;
     private float fallSpeedMultiplier;
     private int nSprites;
-    private int scoreNeeded;
 
-    public Level (int num, float fallSpeedMultiplier, int nSprites, int scoreNeeded) {
+    public Level (int num, float fallSpeedMultiplier, int nSprites) {
         this.num = num;
         this.fallSpeedMultiplier = fallSpeedMultiplier;
         this.nSprites = nSprites;
-        this.scoreNeeded = scoreNeeded;
     }
 
     public void display() {
@@ -24,7 +22,7 @@ public class Level {
         //rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
     }
 
-    public int getScoreNeeded() {
-        return scoreNeeded;
+    public float getFallSpeedMultiplier() {
+        return fallSpeedMultiplier;
     }
 }

@@ -2,6 +2,7 @@ public class Goose extends Sprite
 {
   private float x;
   private float speed; 
+  private float maxSpeed;
   private boolean random;
   
   public Goose (float x, float speed)
@@ -9,11 +10,13 @@ public class Goose extends Sprite
      super("goose.jpg", 0.3);
      this.x = x;
      this.speed = speed; 
+     this.maxSpeed = speed;
      this.random = false;
   }
   
   public Goose (float maxSpeed) {
     super("goose.jpg", 0.3);
+    this.maxSpeed = maxSpeed;
     this.speed = random(1, maxSpeed);
     this.x = random(0, width);
     this.random = true;
@@ -39,7 +42,7 @@ public class Goose extends Sprite
         center_y = 0;
         if (random) {
             x = random(0, width);
-            speed = random(1, speed);
+            speed = random(1, maxSpeed);
         }
     }
 
@@ -47,8 +50,16 @@ public class Goose extends Sprite
     return speed;
   }
 
-  public void setSpeed(int s) {
+  public void setSpeed(float s) {
     speed = s;
+  }
+
+  public float getMaxSpeed() {
+    return maxSpeed;
+  }
+  
+  public void setMaxSpeed(float s) {
+    maxSpeed = s;
   }
 
   public float getXPos() {

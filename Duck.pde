@@ -2,6 +2,7 @@ public class Duck extends Sprite
 {
   private float x;
   private float speed; 
+  private float maxSpeed;
   private boolean random;
   
   public Duck (float x, float speed)
@@ -9,11 +10,13 @@ public class Duck extends Sprite
     super("duck.jpg", 0.3);
     this.x = x;
     this.speed = speed;
+    this.maxSpeed = speed;
     this.random = false;
   }
   
   public Duck (float maxSpeed) {
     super("duck.jpg", 0.3);
+    this.maxSpeed = maxSpeed;
     this.speed = random(1, maxSpeed);
     this.x = random(0, width);
     this.random = true;
@@ -36,7 +39,7 @@ public class Duck extends Sprite
         center_y = 0;
         if (random) {
             x = random(0, width);
-            speed = random(1, speed);
+            speed = random(1, maxSpeed);
         }
     }
 
@@ -49,8 +52,16 @@ public class Duck extends Sprite
     return speed;
   }
 
-  public void setSpeed(int s) {
+  public void setSpeed(float s) {
     speed = s;
+  }
+
+  public float getMaxSpeed() {
+    return maxSpeed;
+  }
+
+  public void setMaxSpeed(float s) {
+    maxSpeed = s;
   }
 
   public float getXPos() {

@@ -33,7 +33,7 @@ void setup() {
         geese[i] = new Goose(2);
     }
 
-    gameLevel = new Level(level, 1.0, numSprites, 10);
+    gameLevel = new Level(level, 1.0, numSprites);
     startscreen = loadImage("farmScreen.jpg");
     image(startscreen, 0,0, width, height);
     initScreen();
@@ -45,7 +45,7 @@ void draw() {
   if (started) {
     
     colorMode(HSB, 360, 100, 100);
-    background(186, 15 + (level * 10), 100);
+    background(186, 15 + (level * 20), 100);
     colorMode(RGB);
 
     gameLevel.initLevel(player);
@@ -71,23 +71,46 @@ void draw() {
         geese[i].display();
         geese[i].update();
 
-        if (player.isTouchingDuck(ducks[i])) {
+        if (player.isTouching(ducks[i])) {
             ducks[i].reset();
             player.addToStack(ducks[i]);
             player.incrementScore();
         }
 
-        if (player.isTouchingGoose(geese[i])) {
+        if (player.isTouching(geese[i])) {
             geese[i].reset();
-            player.setScore(0);
+            //player.setScore(0);
             player.setAlive(false);
-            player.resetStack();
+            //player.resetStack();
         }
     }
 
     player.displayStack(ducks[0]); 
   }
-  System.out.println(player.getScore());
+  //System.out.println(player.getScore());
+  System.out.println(ducks[0].getSpeed());
+  if (player.getPigeonY() <= 0) {
+    level++;
+
+    // reset speed
+    for (int i = 0; i < numSprites; i++) {
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+    }
+
+    gameLevel = new Level(level, 1 + 0.5(level - 1), numSprites);
+    player.resetStack();
+
+    //numSprites++;
+
+    // update speed
+    for (int i = 0; i < numSprites; i++) {
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+    }
+  }
+
+  System.out.println(ducks[0].getSpeed());
 }
 
 // control pigeon using arrow keys
@@ -125,11 +148,10 @@ TO DO:
 
 - splash screen w/ three buttons - start, how to play (i), history (h)
   - character select if we have time?
-- level up when touching the top
-  - how to make each progressive level harder
-  - ducks and geese fall faster
-  - background gets darker the higher you go
+- level up when touching the top - DONE
+  - ducks and geese fall faster - done? (test)
 - animate sprites
+- fancy graphics
 - sprites can go off the screen - fix?
   - fixed for pigeon
 - speed up pigeon/fix janky mechanics
