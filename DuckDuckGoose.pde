@@ -79,16 +79,16 @@ void draw() {
 
         if (player.isTouching(geese[i])) {
             geese[i].reset();
-            //player.setScore(0);
+            player.setScore(0);
             player.setAlive(false);
-            //player.resetStack();
+            player.resetStack();
         }
     }
 
     player.displayStack(ducks[0]); 
   }
   //System.out.println(player.getScore());
-  System.out.println(ducks[0].getSpeed());
+  //System.out.println(ducks[0].getSpeed());
   if (player.getPigeonY() <= 0) {
     level++;
 
@@ -110,7 +110,7 @@ void draw() {
     }
   }
 
-  System.out.println(ducks[0].getSpeed());
+  //System.out.println(ducks[0].getSpeed());
 }
 
 // control pigeon using arrow keys
