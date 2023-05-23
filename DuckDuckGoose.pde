@@ -79,9 +79,9 @@ void draw() {
 
         if (player.isTouching(geese[i])) {
             geese[i].reset();
-            player.setScore(0);
+            //player.setScore(0);
             player.setAlive(false);
-            player.resetStack();
+            //player.resetStack();
         }
     }
 
@@ -98,7 +98,7 @@ void draw() {
       geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
     }
 
-    gameLevel = new Level(level, 1 + 0.5(level - 1), numSprites);
+    gameLevel = new Level(level, 1 + 0.5 * (level - 1), numSprites);
     player.resetStack();
 
     //numSprites++;
@@ -110,7 +110,7 @@ void draw() {
     }
   }
 
-  //System.out.println(ducks[0].getSpeed());
+  // System.out.println(ducks[0].getSpeed());
 }
 
 // control pigeon using arrow keys
@@ -145,15 +145,10 @@ void initScreen(){
 
 /*
 TO DO:
-
 - splash screen w/ three buttons - start, how to play (i), history (h)
   - character select if we have time?
-- level up when touching the top - DONE
-  - ducks and geese fall faster - done? (test)
 - animate sprites
 - fancy graphics
-- sprites can go off the screen - fix?
-  - fixed for pigeon
 - speed up pigeon/fix janky mechanics
 - unjankify collisions/stacking
   - lil space between the ground and the lowest duck

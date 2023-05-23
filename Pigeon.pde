@@ -98,7 +98,7 @@ public class Pigeon extends Sprite {
         }
         for (int i = 0; i < duckStack.size(); i++) {
             // AAAAAAAAAAAAAAAAAAA
-            image(duckStack.get(i), x, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
+            image(duckStack.get(i), x + super.getWidth() / 4, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
         }
     }
 
