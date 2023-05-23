@@ -42,6 +42,8 @@ public void setup() {
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
 
+    level = 1;
+
     ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
 
@@ -59,8 +61,7 @@ public void setup() {
 
 // modify and update them in draw().
 public void draw() {
-  if (started) {
-    
+  if (started) {    
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100);
     colorMode(RGB);
@@ -80,6 +81,7 @@ public void draw() {
     
     player.display();
     gameLevel.display();
+    gameLevel.displayScore(player.getScore());
 
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
@@ -96,38 +98,38 @@ public void draw() {
 
         if (player.isTouching(geese[i])) {
             geese[i].reset();
-            //player.setScore(0);
+            player.setScore(0);
             player.setAlive(false);
-            //player.resetStack();
+            player.resetStack();
         }
     }
 
     player.displayStack(ducks[0]); 
   }
-  //System.out.println(player.getScore());
-  //System.out.println(ducks[0].getSpeed());
+  
   if (player.getPigeonY() <= 0) {
+    float multiplier = gameLevel.getFallSpeedMultiplier();
     level++;
 
     // reset speed
     for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / multiplier);
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / multiplier);
     }
 
     gameLevel = new Level(level, 1 + 0.5f * (level - 1), numSprites);
     player.resetStack();
 
-    //numSprites++;
-
     // update speed
     for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * multiplier);
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * multiplier);
     }
+
+    // increase pigeon speed
+    player.setSpeed(player.getSpeed() + 1);
   }
 
-  // System.out.println(ducks[0].getSpeed());
 }
 
 // control pigeon using arrow keys
@@ -135,7 +137,6 @@ public void keyPressed() {
   if (!started){
     if (key == ENTER || key == RETURN){
       started = true;
-      level = 1; // find the best place to set the level
     }
   }
   
@@ -166,11 +167,10 @@ TO DO:
   - character select if we have time?
 - animate sprites
 - fancy graphics
-- speed up pigeon/fix janky mechanics
+- fix janky mechanics
 - unjankify collisions/stacking
   - lil space between the ground and the lowest duck
-- consolidate duck and goose classes into falling sprites?
-  - better class management
+- check class management
 - figure out the font
 - audrey wants to add guns
 - power ups
@@ -240,7 +240,7 @@ public class FallingSprite extends Sprite {
 
     // TEST THIS FUNCTION
     public void hide() {
-        image(image, 0, 0, 0, 0);
+        tint(255, 0);
     }
 
     public float getSpeed() {
@@ -292,7 +292,17 @@ public class Level {
     }
 
     public void display() {
-        text("Level " + num, 0, 0);
+        PFont lvlText = createFont("Times New Roman", 48, true);
+        textFont(lvlText);
+        textAlign(CENTER);
+        fill(0);
+        text ("Level " + num, 100, 50);
+    }
+
+    public void displayScore(int s) {
+        PFont scoreText = createFont("Times New Roman", 36, true);
+        textFont(sub);
+        text ("score: " + s, 100, 75);
     }
 
     public void initLevel(Pigeon p) {
@@ -375,6 +385,14 @@ public class Pigeon extends Sprite {
 
     public float getPigeonY() {
         return y;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float s) {
+        speed = s;
     }
 
     public boolean isTouching(Sprite s) {

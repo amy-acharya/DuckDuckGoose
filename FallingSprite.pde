@@ -44,7 +44,7 @@ public class FallingSprite extends Sprite {
 
     // TEST THIS FUNCTION
     public void hide() {
-        image(image, 0, 0, 0, 0);
+        tint(255, 0);
     }
 
     public float getSpeed() {
