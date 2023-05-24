@@ -87,7 +87,7 @@ public class Pigeon extends Sprite {
     }
     
     public void addToStack(Duck d) {
-        PImage newDuck = loadImage("duck.jpg");
+        PImage newDuck = loadImage("duck.png");
         duckStack.add(newDuck);
         y -= d.getHeight();
     }
