@@ -10,7 +10,17 @@ public class Level {
     }
 
     public void display() {
-        text("Level " + num, 0, 0);
+        PFont lvlText = createFont("Times New Roman", 48, true);
+        textFont(lvlText);
+        textAlign(CENTER);
+        fill(0);
+        text ("Level " + num, 100, 50);
+    }
+
+    public void displayScore(int s) {
+        PFont scoreText = createFont("Times New Roman", 36, true);
+        textFont(sub);
+        text ("score: " + s, 100, 75);
     }
 
     public void initLevel(Pigeon p) {
