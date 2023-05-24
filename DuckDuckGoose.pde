@@ -84,7 +84,7 @@ void draw() {
             player.setScore(0);
             player.setAlive(false);
             player.resetStack();
-            pigeon.resetSpeed();
+            player.resetSpeed();
         }
     }
 
