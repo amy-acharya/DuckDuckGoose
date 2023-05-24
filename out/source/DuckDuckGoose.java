@@ -158,16 +158,6 @@ public void initScreen(){
   text ("press enter to start", 950, 255);
 }
 
-public void gameOverScreen() {
-  // title = createFont("Times New Roman", 80, true);
-  // textFont(title);
-  // textAlign(CENTER);
-  // fill(0);
-  // text ("Game Over", 950, 210);
-  // sub = createFont("Times New Roman", 25, true);
-  // textFont(sub);
-  // text ("press [KEY] to play again", 950, 255);
-}
 
 /*
 TO DO:
@@ -177,17 +167,14 @@ TO DO:
 - fancy graphics
   - fade in/out for screens
   - screen between levels
-- unjankify collisions/stacking
-  - lil space between the ground and the lowest duck
+- unjankify collisions
 - check class management
 - figure out the font
 - audrey wants to add guns
 - power ups
 - add game over screen!!!
 
-- search method for array
 - nested for loop
-- recursive formula/function
 - execution of how game operates
 - creative twist on history of game
 */
@@ -447,6 +434,66 @@ public class Pigeon extends Sprite {
     public void resetStack() {
         y = height - 250;
         duckStack.clear();
+    }
+}
+enum PowerUpType {
+    RAINING_DUCKS,
+    NONE
+}
+public class PowerUps {
+    private ArrayList<PowerUpType> activePowerUps;
+    private ArrayList<Sprite> extraSprites;
+
+    public PowerUps() {
+        activePowerUps = new ArrayList<PowerUpType>();
+        extraSprites = new ArrayList<Sprite>();
+    }
+
+    public String getPowerUpName(PowerUpType t) {
+        switch (t) {
+            case RAINING_DUCKS:
+                return "It's Raining Ducks!";
+            default:
+                return "No power ups active!";
+        }
+    }
+
+    public boolean isPowerActive(PowerUpType p) {
+        for (PowerUpType s : activePowerUps) {
+            if (p.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int calculateDuckNum(int lvl) {
+        if (lvl == 1) {
+            return 1;
+        }
+        else {
+            return lvl + calculateDuckNum(lvl - 1);
+        }
+    }
+
+    public boolean rainDucks(float currentMaxSpeed) {
+        if (!(isPowerActive(PowerUpType.RAINING_DUCKS))) {
+            return false;
+        }
+
+        int duckNum = calculateDuckNum(level);
+        for (int i = 0; i < duckNum; i++) {
+            extraSprites.add(new Duck(currentMaxSpeed));
+        }
+
+        return true;
+    }
+
+    public void displayExtraSprites() {
+        for (int i = 0; i < extraSprites.size(); i++) {
+            extraSprites.get(i).display();
+            extraSprites.get(i).update();
+        }
     }
 }
 public class Sprite {

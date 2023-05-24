@@ -141,16 +141,6 @@ void initScreen(){
   text ("press enter to start", 950, 255);
 }
 
-void gameOverScreen() {
-  // title = createFont("Times New Roman", 80, true);
-  // textFont(title);
-  // textAlign(CENTER);
-  // fill(0);
-  // text ("Game Over", 950, 210);
-  // sub = createFont("Times New Roman", 25, true);
-  // textFont(sub);
-  // text ("press [KEY] to play again", 950, 255);
-}
 
 /*
 TO DO:
@@ -167,9 +157,7 @@ TO DO:
 - power ups
 - add game over screen!!!
 
-- search method for array
 - nested for loop
-- recursive formula/function
 - execution of how game operates
 - creative twist on history of game
 */
