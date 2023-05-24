@@ -75,6 +75,10 @@ public class Pigeon extends Sprite {
         speed = s;
     }
 
+    public void resetSpeed() {
+        speed -= (level - 1);
+    }
+
     public boolean isTouching(Sprite s) {
         float xPos = (x + super.getWidth() / 2);
         float yPos = y; 

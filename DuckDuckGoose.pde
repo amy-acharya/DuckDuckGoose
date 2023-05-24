@@ -84,6 +84,7 @@ void draw() {
             player.setScore(0);
             player.setAlive(false);
             player.resetStack();
+            pigeon.resetSpeed();
         }
     }
 
@@ -143,19 +144,32 @@ void initScreen(){
   text ("press enter to start", 950, 255);
 }
 
+void gameOverScreen() {
+  // title = createFont("Times New Roman", 80, true);
+  // textFont(title);
+  // textAlign(CENTER);
+  // fill(0);
+  // text ("Game Over", 950, 210);
+  // sub = createFont("Times New Roman", 25, true);
+  // textFont(sub);
+  // text ("press [KEY] to play again", 950, 255);
+}
+
 /*
 TO DO:
 - splash screen w/ three buttons - start, how to play (i), history (h)
   - character select if we have time?
 - animate sprites
 - fancy graphics
-- fix janky mechanics
+  - fade in/out for screens
+  - screen between levels
 - unjankify collisions/stacking
   - lil space between the ground and the lowest duck
 - check class management
 - figure out the font
 - audrey wants to add guns
 - power ups
+- add game over screen!!!
 
 - search method for array
 - nested for loop

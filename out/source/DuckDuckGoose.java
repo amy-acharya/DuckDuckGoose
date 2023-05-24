@@ -129,7 +129,6 @@ public void draw() {
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
   }
-
 }
 
 // control pigeon using arrow keys
