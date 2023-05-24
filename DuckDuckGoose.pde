@@ -3,13 +3,15 @@ Pigeon player;
 Duck[] ducks;
 Goose[] geese;
 int numSprites;
-PFont title, sub;
 PImage startscreen;
 int stage;
 int level;
 boolean started = false;
 Level gameLevel;
 boolean levelStarted = false;
+char h = 104;
+char i = 105;
+PFont title, sub, screenTitle; 
 
 // initialize them in setup().
 
@@ -18,7 +20,9 @@ void setup() {
     //     System.out.println(PFont.list()[z]);
     // }
     size(1400, 750); // reserved variables width = 800, height = 600
-  
+    title = createFont ("Times New Roman", 80, true);
+    sub = createFont("Times New Roman", 25, true);
+    screenTitle = createFont("Times New Roman", 60, true);
 
     player = new Pigeon(width / 2.0, 8.0);
 
@@ -122,7 +126,17 @@ void keyPressed() {
       started = true;
     }
   }
-  
+  // h key for how to screen
+  // i key for game info screen
+   if (key == h){
+      howToScreen();
+      started = false;
+  }
+  if (key == i){
+      historyScreen();
+      started = false;
+  }
+
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
@@ -130,16 +144,15 @@ void keyPressed() {
     else if (keyCode == RIGHT) {
       player.moveRight();
     }
+    
   }
 }
 
 void initScreen(){
-  title = createFont("Times New Roman", 80, true);
   textFont(title);
   textAlign(CENTER);
   fill(0);
   text ("Duck Duck Goose", 950, 210);
-  sub = createFont("Times New Roman", 25, true);
   textFont(sub);
   text ("press enter to start", 950, 255);
 }
@@ -153,6 +166,25 @@ void gameOverScreen() {
   // sub = createFont("Times New Roman", 25, true);
   // textFont(sub);
   // text ("press [KEY] to play again", 950, 255);
+}
+
+void historyScreen(){
+background(218, 247, 166);
+textFont(screenTitle);
+text ("The History of the Pigeon", 700, 200);
+textFont(sub);
+text ("The History of the Pigeon", 700, 280);
+
+}
+
+void howToScreen(){
+ background(255, 173, 49);
+ textFont(screenTitle);
+ text ("How to Play", 700, 200);
+ textFont(sub);
+ text ("collect the ducks and avoid the geese", 700, 280);
+ text ("use the arrow keys to move pigeon left and right", 700, 315);
+ text ("once enough ducks are collected you will level up", 700, 350);
 }
 
 /*
