@@ -20,7 +20,7 @@ void setup() {
     size(1400, 750); // reserved variables width = 800, height = 600
   
 
-    player = new Pigeon(width / 2.0, 5.0);
+    player = new Pigeon(width / 2.0, 8.0);
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;

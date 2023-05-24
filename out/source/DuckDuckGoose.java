@@ -37,7 +37,7 @@ public void setup() {
     /* size commented out by preprocessor */; // reserved variables width = 800, height = 600
   
 
-    player = new Pigeon(width / 2.0f, 5.0f);
+    player = new Pigeon(width / 2.0f, 8.0f);
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
@@ -185,11 +185,11 @@ public class Duck extends FallingSprite
 
   public Duck (float x, float speed)
   {
-    super("duck.jpg", 0.3f, x, speed);
+    super("duck.png", 0.3f, x, speed);
   }
   
   public Duck (float maxSpeed) {
-    super("duck.jpg", 0.3f, maxSpeed);
+    super("duck.png", 0.3f, maxSpeed);
   }
   
 }
@@ -271,11 +271,11 @@ public class Goose extends FallingSprite
   
   public Goose (float x, float speed)
   {
-     super("goose.jpg", 0.3f, x, speed);
+     super("goose.png", 0.3f, x, speed);
   }
   
   public Goose (float maxSpeed) {
-    super("goose.jpg", 0.3f, maxSpeed);
+    super("goose.png", 0.3f, maxSpeed);
   }
   
 }
@@ -414,7 +414,7 @@ public class Pigeon extends Sprite {
     }
     
     public void addToStack(Duck d) {
-        PImage newDuck = loadImage("duck.jpg");
+        PImage newDuck = loadImage("duck.png");
         duckStack.add(newDuck);
         y -= d.getHeight();
     }
