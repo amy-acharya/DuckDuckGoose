@@ -18,7 +18,6 @@ void setup() {
     //     System.out.println(PFont.list()[z]);
     // }
     size(1400, 750); // reserved variables width = 800, height = 600
-  
 
     player = new Pigeon(width / 2.0, 8.0);
 
@@ -51,8 +50,6 @@ void draw() {
 
     gameLevel.initLevel(player);
 
-    // 14 ducks to reach the top
-
     // if (!levelStarted) {
     //   colorMode(HSB, 360, 100, 100);
     //   background(186, 15 + (level * 10), 100);
@@ -81,9 +78,9 @@ void draw() {
 
         if (player.isTouching(geese[i])) {
             geese[i].reset();
-            player.setScore(0);
+            //player.setScore(0);
             player.setAlive(false);
-            player.resetStack();
+            //player.resetStack();
             player.resetSpeed();
         }
     }
@@ -163,8 +160,7 @@ TO DO:
 - fancy graphics
   - fade in/out for screens
   - screen between levels
-- unjankify collisions/stacking
-  - lil space between the ground and the lowest duck
+- unjankify collisions
 - check class management
 - figure out the font
 - audrey wants to add guns

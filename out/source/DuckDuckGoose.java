@@ -35,7 +35,6 @@ public void setup() {
     //     System.out.println(PFont.list()[z]);
     // }
     /* size commented out by preprocessor */; // reserved variables width = 800, height = 600
-  
 
     player = new Pigeon(width / 2.0f, 8.0f);
 
@@ -68,8 +67,6 @@ public void draw() {
 
     gameLevel.initLevel(player);
 
-    // 14 ducks to reach the top
-
     // if (!levelStarted) {
     //   colorMode(HSB, 360, 100, 100);
     //   background(186, 15 + (level * 10), 100);
@@ -98,9 +95,9 @@ public void draw() {
 
         if (player.isTouching(geese[i])) {
             geese[i].reset();
-            player.setScore(0);
+            //player.setScore(0);
             player.setAlive(false);
-            player.resetStack();
+            //player.resetStack();
             player.resetSpeed();
         }
     }
@@ -199,11 +196,11 @@ public class Duck extends FallingSprite
 
   public Duck (float x, float speed)
   {
-    super("duck.png", 0.3f, x, speed);
+    super("duck.png", 0.07f, x, speed);
   }
   
   public Duck (float maxSpeed) {
-    super("duck.png", 0.3f, maxSpeed);
+    super("duck.png", 0.07f, maxSpeed);
   }
   
 }
@@ -285,11 +282,11 @@ public class Goose extends FallingSprite
   
   public Goose (float x, float speed)
   {
-     super("goose.png", 0.3f, x, speed);
+     super("goose.png", 0.07f, x, speed);
   }
   
   public Goose (float maxSpeed) {
-    super("goose.png", 0.3f, maxSpeed);
+    super("goose.png", 0.07f, maxSpeed);
   }
   
 }
@@ -342,7 +339,7 @@ public class Pigeon extends Sprite {
     
     public Pigeon(float x, float speed)
     {
-        super("pigeon.png", 0.2f);
+        super("pigeon.png", 0.07f);
         this.x = x;
         this.y = height - 250;
         this.speed = speed; 

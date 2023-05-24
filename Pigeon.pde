@@ -9,7 +9,7 @@ public class Pigeon extends Sprite {
     
     public Pigeon(float x, float speed)
     {
-        super("pigeon.png", 0.2);
+        super("pigeon.png", 0.07);
         this.x = x;
         this.y = height - 250;
         this.speed = speed; 
