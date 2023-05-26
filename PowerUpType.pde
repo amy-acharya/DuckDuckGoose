@@ -1,7 +1,8 @@
 enum PowerUpType {
     RAINING_DUCKS,
     FREEZE_GEESE,
-    INVINCIBILITY;
+    INVINCIBILITY,
+    NONE;
 
     public static PowerUpType getRandomPower() {
         PowerUpType[] vals = PowerUpType.values();

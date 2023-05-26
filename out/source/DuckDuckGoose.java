@@ -84,7 +84,9 @@ public void draw() {
         ducks[i].update();
 
         geese[i].display();
-        geese[i].update();
+        if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+          geese[i].update();
+        }
 
         if (player.isTouching(ducks[i])) {
             ducks[i].reset();
@@ -93,13 +95,18 @@ public void draw() {
         }
 
         if (player.isTouching(geese[i])) {
-            geese[i].reset();
+            if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+              geese[i].reset();
+            }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
               // consolidate all into function - endGame()
-              player.setScore(0);
+              //if (level > 1) {
+              //player.setScore(0);
               player.setAlive(false);
-              player.resetStack();
+              
+              //player.resetStack();
+              //}
               player.resetSpeed();
             }
         }
@@ -116,6 +123,9 @@ public void draw() {
     level++;
     if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
       powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
+    }
+    if (powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+      powerUpManager.removePowerUp(PowerUpType.FREEZE_GEESE);
     }
 
     // reset speed
@@ -136,7 +146,7 @@ public void draw() {
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
 
-    if (level >= 0) {
+    if (level >= 2) {
       PowerUpType newPower = PowerUpType.getRandomPower();
       System.out.println(newPower);
       
@@ -149,11 +159,12 @@ public void draw() {
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
           // add code
-          System.out.println("gooses");
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
           break;
+        case NONE:
+          powerUpManager.resetPowerUps();
       }
     }
   }
@@ -471,7 +482,8 @@ public class Pigeon extends Sprite {
 enum PowerUpType {
     RAINING_DUCKS,
     FREEZE_GEESE,
-    INVINCIBILITY;
+    INVINCIBILITY,
+    NONE;
 
     public static PowerUpType getRandomPower() {
         PowerUpType[] vals = PowerUpType.values();
@@ -522,6 +534,10 @@ public class PowerUps {
         return activePowerUps;
     }
 
+    public void resetPowerUps() {
+        activePowerUps.clear();
+    }
+
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
@@ -570,12 +586,6 @@ public class PowerUps {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             extraSprites.clear();
             removePowerUp(PowerUpType.RAINING_DUCKS);
-        }
-    }
-
-    public void invincibilityTimer() {
-        if (isPowerActive(PowerUpType.INVINCIBILITY)) {
-            removePowerUp(PowerUpType.INVINCIBILITY);
         }
     }
 }

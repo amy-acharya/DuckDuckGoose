@@ -67,7 +67,9 @@ void draw() {
         ducks[i].update();
 
         geese[i].display();
-        geese[i].update();
+        if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+          geese[i].update();
+        }
 
         if (player.isTouching(ducks[i])) {
             ducks[i].reset();
@@ -76,13 +78,18 @@ void draw() {
         }
 
         if (player.isTouching(geese[i])) {
-            geese[i].reset();
+            if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+              geese[i].reset();
+            }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
               // consolidate all into function - endGame()
-              player.setScore(0);
+              //if (level > 1) {
+              //player.setScore(0);
               player.setAlive(false);
-              player.resetStack();
+              
+              //player.resetStack();
+              //}
               player.resetSpeed();
             }
         }
@@ -99,6 +106,9 @@ void draw() {
     level++;
     if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
       powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
+    }
+    if (powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+      powerUpManager.removePowerUp(PowerUpType.FREEZE_GEESE);
     }
 
     // reset speed
@@ -119,7 +129,7 @@ void draw() {
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
 
-    if (level >= 0) {
+    if (level >= 2) {
       PowerUpType newPower = PowerUpType.getRandomPower();
       System.out.println(newPower);
       
@@ -132,11 +142,12 @@ void draw() {
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
           // add code
-          System.out.println("gooses");
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
           break;
+        case NONE:
+          powerUpManager.resetPowerUps();
       }
     }
   }

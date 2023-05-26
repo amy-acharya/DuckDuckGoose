@@ -41,6 +41,10 @@ public class PowerUps {
         return activePowerUps;
     }
 
+    public void resetPowerUps() {
+        activePowerUps.clear();
+    }
+
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
