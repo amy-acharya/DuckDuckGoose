@@ -13,7 +13,12 @@ public class Level {
         PFont lvlText = createFont("Times New Roman", 48, true);
         textFont(lvlText);
         textAlign(CENTER);
-        fill(0);
+        if (level > 5) {
+            fill(255);
+        }
+        else {
+            fill(0);
+        }
         text ("Level " + num, 100, 50);
     }
 
