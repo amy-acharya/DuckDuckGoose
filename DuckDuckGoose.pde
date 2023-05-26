@@ -2,16 +2,23 @@
 Pigeon player;
 Duck[] ducks;
 Goose[] geese;
+<<<<<<< HEAD
 int numSprites;
+=======
+int numSprites, level;
+PFont title, sub;
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 PImage startscreen;
-int stage;
-int level;
-boolean started = false;
+boolean started, levelStarted, isDuckStarted = false;
 Level gameLevel;
+<<<<<<< HEAD
 boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
+=======
+PowerUps powerUpManager;
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 
 // initialize them in setup().
 
@@ -40,6 +47,7 @@ void setup() {
     }
 
     gameLevel = new Level(level, 1.0, numSprites);
+    powerUpManager = new PowerUps();
     startscreen = loadImage("farmScreen.jpg");
     image(startscreen, 0,0, width, height);
     initScreen();
@@ -48,10 +56,10 @@ void setup() {
 
 // modify and update them in draw().
 void draw() {
-  if (started) {    
+  if (started) {
     colorMode(HSB, 360, 100, 100);
-    background(186, 15 + (level * 20), 100);
-    colorMode(RGB);
+    background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
+    //colorMode(RGB);
 
     gameLevel.initLevel(player);
 
@@ -75,7 +83,9 @@ void draw() {
         ducks[i].update();
 
         geese[i].display();
-        geese[i].update();
+        if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+          geese[i].update();
+        }
 
         if (player.isTouching(ducks[i])) {
             ducks[i].reset();
@@ -84,25 +94,51 @@ void draw() {
         }
 
         if (player.isTouching(geese[i])) {
+<<<<<<< HEAD
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
             player.resetStack();
             player.resetSpeed();
+=======
+            if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+              geese[i].reset();
+            }
+
+            if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+              // consolidate all into function - endGame()
+              //if (level > 1) {
+              //player.setScore(0);
+              player.setAlive(false);
+              
+              //player.resetStack();
+              //}
+              player.resetSpeed();
+            }
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
         }
+    }
+    powerUpManager.displayExtraSprites();
+    if (isDuckStarted) {
+        powerUpManager.endDuck(player, level);
     }
 
     player.displayStack(ducks[0]); 
   }
   
   if (player.getPigeonY() <= 0) {
-    float multiplier = gameLevel.getFallSpeedMultiplier();
     level++;
+    if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+      powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
+    }
+    if (powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+      powerUpManager.removePowerUp(PowerUpType.FREEZE_GEESE);
+    }
 
     // reset speed
     for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / multiplier);
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / multiplier);
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
     }
 
     gameLevel = new Level(level, 1 + 0.5 * (level - 1), numSprites);
@@ -110,12 +146,34 @@ void draw() {
 
     // update speed
     for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * multiplier);
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * multiplier);
+      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
     }
 
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
+
+    if (level >= 2) {
+      PowerUpType newPower = PowerUpType.getRandomPower();
+      System.out.println(newPower);
+      
+      switch (newPower) {
+        case RAINING_DUCKS:
+          powerUpManager.resetDuckRain();
+          powerUpManager.addPowerUp(newPower);
+          isDuckStarted = powerUpManager.rainDucks(ducks[0].getMaxSpeed()); 
+          break;
+        case FREEZE_GEESE:
+          powerUpManager.addPowerUp(newPower);
+          // add code
+          break;
+        case INVINCIBILITY:
+          powerUpManager.addPowerUp(newPower);
+          break;
+        case NONE:
+          powerUpManager.resetPowerUps();
+      }
+    }
   }
 }
 
@@ -148,7 +206,12 @@ void keyPressed() {
   }
 }
 
+<<<<<<< HEAD
 void initScreen(){
+=======
+void initScreen() {
+  title = createFont("Times New Roman", 80, true);
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
   textFont(title);
   textAlign(CENTER);
   fill(0);
@@ -189,14 +252,17 @@ void howToScreen(){
 
 /*
 TO DO:
-- splash screen w/ three buttons - start, how to play (i), history (h)
+- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
   - character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
   - screen between levels
+<<<<<<< HEAD
 - unjankify collisions/stacking
   - lil space between the ground and the lowest duck
+=======
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 - check class management
 - figure out the font
 - audrey wants to add guns
@@ -205,7 +271,11 @@ TO DO:
 
 - search method for array
 - nested for loop
+<<<<<<< HEAD
 - recursive formula/function
 - execution of how game operates
 - creative twist on history of game
 */
+=======
+*/
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
