@@ -2,14 +2,15 @@
 Pigeon player;
 Duck[] ducks;
 Goose[] geese;
-int numSprites;
+int numSprites, level;
 PImage startscreen;
-boolean started, levelStarted, isDuckStarted = false;
+boolean started, isDuckStarted = false;
 Level gameLevel;
 boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
+PowerUps powerUpManager;
 
 // initialize them in setup().
 
@@ -85,13 +86,13 @@ void draw() {
         }
 
         if (player.isTouching(geese[i])) {
-<<<<<<< HEAD
+
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
             player.resetStack();
             player.resetSpeed();
-=======
+
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
@@ -106,7 +107,7 @@ void draw() {
               //}
               player.resetSpeed();
             }
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
+
         }
     }
     powerUpManager.displayExtraSprites();
@@ -197,12 +198,9 @@ void keyPressed() {
   }
 }
 
-<<<<<<< HEAD
-void initScreen(){
-=======
+
 void initScreen() {
   title = createFont("Times New Roman", 80, true);
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
   textFont(title);
   textAlign(CENTER);
   fill(0);
@@ -256,11 +254,9 @@ TO DO:
 - fancy graphics
   - fade in/out for screens
   - screen between levels
-<<<<<<< HEAD
+
 - unjankify collisions/stacking
   - lil space between the ground and the lowest duck
-=======
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 - check class management
 - figure out the font
 - audrey wants to add guns
@@ -269,11 +265,8 @@ TO DO:
 
 - search method for array
 - nested for loop
-<<<<<<< HEAD
 - recursive formula/function
 - execution of how game operates
 - creative twist on history of game
 */
-=======
-*/
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
+
