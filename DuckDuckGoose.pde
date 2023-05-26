@@ -2,23 +2,14 @@
 Pigeon player;
 Duck[] ducks;
 Goose[] geese;
-<<<<<<< HEAD
 int numSprites;
-=======
-int numSprites, level;
-PFont title, sub;
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 PImage startscreen;
 boolean started, levelStarted, isDuckStarted = false;
 Level gameLevel;
-<<<<<<< HEAD
 boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
-=======
-PowerUps powerUpManager;
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 
 // initialize them in setup().
 

@@ -19,23 +19,14 @@ public class DuckDuckGoose extends PApplet {
 Pigeon player;
 Duck[] ducks;
 Goose[] geese;
-<<<<<<< HEAD
 int numSprites;
-=======
-int numSprites, level;
-PFont title, sub;
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 PImage startscreen;
 boolean started, levelStarted, isDuckStarted = false;
 Level gameLevel;
-<<<<<<< HEAD
 boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
-=======
-PowerUps powerUpManager;
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 
 // initialize them in setup().
 
@@ -292,19 +283,20 @@ TO DO:
 - recursive formula/function
 - execution of how game operates
 - creative twist on history of game
-=======
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 */
+=======
+*/
+>>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 public class Duck extends FallingSprite
 {
 
   public Duck (float x, float speed)
   {
-    super("duck.png", 0.3f, x, speed);
+    super("duck.png", 0.07f, x, speed);
   }
   
   public Duck (float maxSpeed) {
-    super("duck.png", 0.3f, maxSpeed);
+    super("duck.png", 0.07f, maxSpeed);
   }
   
 }
@@ -386,11 +378,11 @@ public class Goose extends FallingSprite
   
   public Goose (float x, float speed)
   {
-     super("goose.png", 0.3f, x, speed);
+     super("goose.png", 0.07f, x, speed);
   }
   
   public Goose (float maxSpeed) {
-    super("goose.png", 0.3f, maxSpeed);
+    super("goose.png", 0.07f, maxSpeed);
   }
   
 }
@@ -448,7 +440,7 @@ public class Pigeon extends Sprite {
     
     public Pigeon(float x, float speed)
     {
-        super("pigeon.png", 0.2f);
+        super("pigeon.png", 0.07f);
         this.x = x;
         this.y = height - 250;
         this.speed = speed; 
@@ -558,8 +550,6 @@ public class Pigeon extends Sprite {
         duckStack.clear();
     }
 }
-<<<<<<< HEAD
-=======
 enum PowerUpType {
     RAINING_DUCKS,
     FREEZE_GEESE,
@@ -670,7 +660,6 @@ public class PowerUps {
         }
     }
 }
->>>>>>> 1b04ff74117d0d28f3856c800332aa7049ccd82c
 public class Sprite {
   PImage image;
   float center_x, center_y;
