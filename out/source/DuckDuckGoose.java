@@ -559,7 +559,6 @@ public class Pigeon extends Sprite {
 }
 enum PowerUpType {
     RAINING_DUCKS,
-<<<<<<< Updated upstream
     FREEZE_GEESE,
     INVINCIBILITY,
     NONE;
@@ -577,31 +576,16 @@ public class PowerUps {
     public PowerUps() {
         activePowerUps = new ArrayList<PowerUpType>();
         extraSprites = new ArrayList<Duck>();
-=======
-    NONE
-}
-public class PowerUps {
-    private ArrayList<PowerUpType> activePowerUps;
-    private ArrayList<Sprite> extraSprites;
-
-    public PowerUps() {
-        activePowerUps = new ArrayList<PowerUpType>();
-        extraSprites = new ArrayList<Sprite>();
->>>>>>> Stashed changes
     }
 
     public String getPowerUpName(PowerUpType t) {
         switch (t) {
             case RAINING_DUCKS:
-<<<<<<< Updated upstream
                 return "It's raining ducks!";
             case FREEZE_GEESE:
                 return "Geese are frozen!";
             case INVINCIBILITY:
                 return "Geese do no damage!";
-=======
-                return "It's Raining Ducks!";
->>>>>>> Stashed changes
             default:
                 return "No power ups active!";
         }
@@ -616,7 +600,6 @@ public class PowerUps {
         return false;
     }
 
-<<<<<<< Updated upstream
     public void addPowerUp(PowerUpType p) {
         activePowerUps.add(p);
     }
@@ -633,8 +616,6 @@ public class PowerUps {
         activePowerUps.clear();
     }
 
-=======
->>>>>>> Stashed changes
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
@@ -661,7 +642,6 @@ public class PowerUps {
         for (int i = 0; i < extraSprites.size(); i++) {
             extraSprites.get(i).display();
             extraSprites.get(i).update();
-<<<<<<< Updated upstream
             if (player.isTouching(extraSprites.get(i))) {
                 extraSprites.get(i).reset();
                 player.addToStack(extraSprites.get(i));
@@ -684,8 +664,6 @@ public class PowerUps {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             extraSprites.clear();
             removePowerUp(PowerUpType.RAINING_DUCKS);
-=======
->>>>>>> Stashed changes
         }
     }
 }
