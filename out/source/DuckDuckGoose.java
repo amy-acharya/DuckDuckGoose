@@ -59,7 +59,7 @@ public void setup() {
 
 // modify and update them in draw().
 public void draw() {
-  if (started) {    
+  if (started) {
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
     //colorMode(RGB);
@@ -97,10 +97,10 @@ public void draw() {
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
               // consolidate all into function - endGame()
-              //player.setScore(0);
+              player.setScore(0);
               player.setAlive(false);
-              //player.resetStack();
-              //player.resetSpeed();
+              player.resetStack();
+              player.resetSpeed();
             }
         }
     }
@@ -114,6 +114,9 @@ public void draw() {
   
   if (player.getPigeonY() <= 0) {
     level++;
+    if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+      powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
+    }
 
     // reset speed
     for (int i = 0; i < numSprites; i++) {
@@ -150,7 +153,6 @@ public void draw() {
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
-          powerUpManager.invincibilityTimer();
           break;
       }
     }
@@ -199,9 +201,7 @@ TO DO:
 - figure out the font
 - audrey wants to add guns
 - power ups
-  - test raining ducks
 - add game over screen!!!
-- delete sprites from duck rain
 
 - nested for loop
 */
@@ -575,7 +575,6 @@ public class PowerUps {
 
     public void invincibilityTimer() {
         if (isPowerActive(PowerUpType.INVINCIBILITY)) {
-            //Thread.sleep(30000);
             removePowerUp(PowerUpType.INVINCIBILITY);
         }
     }

@@ -91,11 +91,4 @@ public class PowerUps {
             removePowerUp(PowerUpType.RAINING_DUCKS);
         }
     }
-
-    public void invincibilityTimer() {
-        if (isPowerActive(PowerUpType.INVINCIBILITY)) {
-            //Thread.sleep(30000);
-            removePowerUp(PowerUpType.INVINCIBILITY);
-        }
-    }
 }
