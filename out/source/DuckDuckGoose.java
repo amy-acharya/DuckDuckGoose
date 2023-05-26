@@ -223,9 +223,12 @@ public void initScreen() {
   textFont(title);
   textAlign(CENTER);
   fill(0);
-  text ("Duck Duck Goose", 950, 210);
+  text ("Duck Duck Goose", 950, 200);
   textFont(sub);
   text ("press enter to start", 950, 255);
+  textSize(15);
+  text ("press h to learn how to play", 1000, 285);
+  text ("press i for history of the game ", 1005, 305);
 }
 
 public void gameOverScreen() {
@@ -240,22 +243,26 @@ public void gameOverScreen() {
 }
 
 public void historyScreen(){
-background(218, 247, 166);
+background(218, 255, 63);
 textFont(screenTitle);
 text ("The History of the Pigeon", 700, 200);
 textFont(sub);
-text ("The History of the Pigeon", 700, 280);
+text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
+text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
+text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
+text ("this game is his revenge. ", 700, 400);
 
 }
 
 public void howToScreen(){
- background(255, 173, 49);
+ background(255, 209, 101);
  textFont(screenTitle);
  text ("How to Play", 700, 200);
  textFont(sub);
- text ("collect the ducks and avoid the geese", 700, 280);
- text ("use the arrow keys to move pigeon left and right", 700, 315);
- text ("once enough ducks are collected you will level up", 700, 350);
+ text ("move the pigeon under a duck to form a stack", 700, 320);
+ text ("use the arrow keys to move pigeon left and right", 700, 280);
+ text ("hitting a goose will remove your whole stack ", 700, 360);
+ text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
@@ -552,6 +559,7 @@ public class Pigeon extends Sprite {
 }
 enum PowerUpType {
     RAINING_DUCKS,
+<<<<<<< Updated upstream
     FREEZE_GEESE,
     INVINCIBILITY,
     NONE;
@@ -569,16 +577,31 @@ public class PowerUps {
     public PowerUps() {
         activePowerUps = new ArrayList<PowerUpType>();
         extraSprites = new ArrayList<Duck>();
+=======
+    NONE
+}
+public class PowerUps {
+    private ArrayList<PowerUpType> activePowerUps;
+    private ArrayList<Sprite> extraSprites;
+
+    public PowerUps() {
+        activePowerUps = new ArrayList<PowerUpType>();
+        extraSprites = new ArrayList<Sprite>();
+>>>>>>> Stashed changes
     }
 
     public String getPowerUpName(PowerUpType t) {
         switch (t) {
             case RAINING_DUCKS:
+<<<<<<< Updated upstream
                 return "It's raining ducks!";
             case FREEZE_GEESE:
                 return "Geese are frozen!";
             case INVINCIBILITY:
                 return "Geese do no damage!";
+=======
+                return "It's Raining Ducks!";
+>>>>>>> Stashed changes
             default:
                 return "No power ups active!";
         }
@@ -593,6 +616,7 @@ public class PowerUps {
         return false;
     }
 
+<<<<<<< Updated upstream
     public void addPowerUp(PowerUpType p) {
         activePowerUps.add(p);
     }
@@ -609,6 +633,8 @@ public class PowerUps {
         activePowerUps.clear();
     }
 
+=======
+>>>>>>> Stashed changes
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
@@ -635,6 +661,7 @@ public class PowerUps {
         for (int i = 0; i < extraSprites.size(); i++) {
             extraSprites.get(i).display();
             extraSprites.get(i).update();
+<<<<<<< Updated upstream
             if (player.isTouching(extraSprites.get(i))) {
                 extraSprites.get(i).reset();
                 player.addToStack(extraSprites.get(i));
@@ -657,6 +684,8 @@ public class PowerUps {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             extraSprites.clear();
             removePowerUp(PowerUpType.RAINING_DUCKS);
+=======
+>>>>>>> Stashed changes
         }
     }
 }

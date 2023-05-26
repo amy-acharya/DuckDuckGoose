@@ -206,9 +206,12 @@ void initScreen() {
   textFont(title);
   textAlign(CENTER);
   fill(0);
-  text ("Duck Duck Goose", 950, 210);
+  text ("Duck Duck Goose", 950, 200);
   textFont(sub);
   text ("press enter to start", 950, 255);
+  textSize(15);
+  text ("press h to learn how to play", 1000, 285);
+  text ("press i for history of the game ", 1005, 305);
 }
 
 void gameOverScreen() {
@@ -223,22 +226,26 @@ void gameOverScreen() {
 }
 
 void historyScreen(){
-background(218, 247, 166);
+background(218, 255, 63);
 textFont(screenTitle);
 text ("The History of the Pigeon", 700, 200);
 textFont(sub);
-text ("The History of the Pigeon", 700, 280);
+text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
+text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
+text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
+text ("this game is his revenge. ", 700, 400);
 
 }
 
 void howToScreen(){
- background(255, 173, 49);
+ background(255, 209, 101);
  textFont(screenTitle);
  text ("How to Play", 700, 200);
  textFont(sub);
- text ("collect the ducks and avoid the geese", 700, 280);
- text ("use the arrow keys to move pigeon left and right", 700, 315);
- text ("once enough ducks are collected you will level up", 700, 350);
+ text ("move the pigeon under a duck to form a stack", 700, 320);
+ text ("use the arrow keys to move pigeon left and right", 700, 280);
+ text ("hitting a goose will remove your whole stack ", 700, 360);
+ text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
