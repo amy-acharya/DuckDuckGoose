@@ -49,8 +49,11 @@ public class PowerUps {
         if (lvl == 1) {
             return 1;
         }
-        else {
+        else if (level >= 10) {
             return lvl + calculateDuckNum(lvl - 1);
+        }
+        else {
+            return calculateDuckNum(lvl - 1);
         }
     }
 

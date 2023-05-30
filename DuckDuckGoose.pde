@@ -24,6 +24,7 @@ void setup() {
     screenTitle = createFont("Times New Roman", 60, true);
 
     player = new Pigeon(width / 2.0, 8.0);
+    player.setupAnimate();
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
@@ -157,7 +158,6 @@ void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
-          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
@@ -190,9 +190,11 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
+      player.animate();
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
+      player.animate();
     }
     
   }
@@ -242,31 +244,19 @@ void howToScreen(){
  textFont(sub);
  text ("move the pigeon under a duck to form a stack", 700, 320);
  text ("use the arrow keys to move pigeon left and right", 700, 280);
- text ("hitting a goose will remove your whole stack ", 700, 360);
+ text ("hitting a goose will end the game ", 700, 360);
  text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
 TO DO:
-- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
-  - character select if we have time?
+- character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
-  - screen between levels
+  - screen between levels?
 
-- unjankify collisions/stacking
-  - lil space between the ground and the lowest duck
-- check class management
-- figure out the font
-- audrey wants to add guns
-- power ups
 - add game over screen!!!
 
-- search method for array
 - nested for loop
-- recursive formula/function
-- execution of how game operates
-- creative twist on history of game
 */
-

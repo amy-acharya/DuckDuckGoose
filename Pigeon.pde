@@ -5,6 +5,10 @@ public class Pigeon extends Sprite {
     private boolean alive;
     private int score;
     private ArrayList<PImage> duckStack;
+    PImage[] sprites;
+    private int numFrames;
+    //float xPos = 0;
+    //float xSpeed = 2;
 
     
     public Pigeon(float x, float speed)
@@ -16,6 +20,7 @@ public class Pigeon extends Sprite {
         this.alive = true;
         this.score = 0;
         duckStack = new ArrayList<PImage>();
+        this.numFrames = 4;
     }
     
     public void display()
@@ -41,6 +46,19 @@ public class Pigeon extends Sprite {
         if (x >= width) {
             x = width;
         }
+    }
+
+    public void setupAnimate() {
+        sprites = new PImage[numFrames];
+        for (int i = 0; i < numFrames; i++) 
+        {
+            sprites[i] = loadImage("sprite" + i + ".png");
+        }
+    }
+
+    public void animate() {
+        int index = frameCount % numFrames;
+        image(sprites[index], x, y, super.getWidth(), super.getHeight());
     }
     
     public void incrementScore() {
