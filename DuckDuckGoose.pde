@@ -23,7 +23,7 @@ void setup() {
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0, 8.0);
+    player = new Pigeon(width / 2.0, 11.0);
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
@@ -49,6 +49,8 @@ void setup() {
 // modify and update them in draw().
 void draw() {
   if (started) {
+    
+    tint(255, 255);
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
     //colorMode(RGB);
@@ -87,6 +89,9 @@ void draw() {
 
         if (player.isTouching(geese[i])) {
 
+            tint(255, 0);
+            gameOverScreen();
+            started = false;
             geese[i].reset();
             player.setScore(0);
             player.setAlive(false);
@@ -213,14 +218,13 @@ void initScreen() {
 }
 
 void gameOverScreen() {
-  // title = createFont("Times New Roman", 80, true);
-  // textFont(title);
-  // textAlign(CENTER);
-  // fill(0);
-  // text ("Game Over", 950, 210);
-  // sub = createFont("Times New Roman", 25, true);
-  // textFont(sub);
-  // text ("press [KEY] to play again", 950, 255);
+  background(0);
+  textFont(title);
+  fill(255);
+  text ("Game Over", 700, 300);
+  textFont(sub);
+  text("your score was " + player.getScore(), 700, 360);
+  text ("press ENTER to play again", 700, 410);
 }
 
 void historyScreen(){
