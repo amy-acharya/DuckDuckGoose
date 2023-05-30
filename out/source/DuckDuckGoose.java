@@ -62,6 +62,14 @@ public void setup() {
     image(startscreen, 0,0, width, height);
     initScreen();
 
+    // Nested for loop:
+    int [][] example2D = new int[3][5];
+    for (int r = 0; r < example2D.length; r++) {
+      for (int c = 0; c < example2D[0].length; c++) {
+        example2D[r][c] = r + c;
+      }
+    }
+
 } 
 
 // modify and update them in draw().
@@ -71,7 +79,7 @@ public void draw() {
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
     //colorMode(RGB);
 
-    gameLevel.initLevel(player);
+    gameLevel.initLevel(player, level);
 
     // 14 ducks to reach the top
 
@@ -105,24 +113,14 @@ public void draw() {
 
         if (player.isTouching(geese[i])) {
 
-            geese[i].reset();
-            player.setScore(0);
-            player.setAlive(false);
-            player.resetStack();
-            player.resetSpeed();
-
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              // consolidate all into function - endGame()
-              //if (level > 1) {
-              //player.setScore(0);
+              player.setScore(0);
               player.setAlive(false);
-              
-              //player.resetStack();
-              //}
+              player.resetStack();
               player.resetSpeed();
             }
 
@@ -271,11 +269,6 @@ TO DO:
 - animate sprites
 - fancy graphics
   - fade in/out for screens
-  - screen between levels?
-
-- add game over screen!!!
-
-- nested for loop
 */
 public class Duck extends FallingSprite
 {
@@ -406,13 +399,13 @@ public class Level {
         text ("score: " + s, 100, 75);
     }
 
-    public void initLevel(Pigeon p) {
+    public void initLevel(Pigeon p, int lvl) {
         noStroke();
-        colorMode(RGB, 255, 255, 255);
-        fill(198, 255, 138);
+        colorMode(HSB, 360, 100, 100);
+        fill(89, 46 - (lvl - 1) * 10, 100);
         // hardcode for now until I can find a fix
-        rect(0, height - 150, width, 250);
-        //rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
+        //rect(0, height - 150, width, 250);
+        rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
     }
 
     public float getFallSpeedMultiplier() {
