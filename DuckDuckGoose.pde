@@ -6,6 +6,7 @@ int numSprites, level;
 PImage startscreen;
 boolean started, isDuckStarted = false;
 Level gameLevel;
+boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
@@ -14,14 +15,17 @@ PowerUps powerUpManager;
 // initialize them in setup().
 
 void setup() {
-    size(1400, 750); 
+    // for (int z = 0; z < PFont.list().length; z++) {
+    //     System.out.println(PFont.list()[z]);
+    // }
+    size(1400, 750); // reserved variables width = 800, height = 600
     title = createFont ("Times New Roman", 80, true);
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0, 8.0);
-    player.setupAnimate();
+    player = new Pigeon(width / 2.0, 11.0);
 
+    // can be changed depending on how many ducks/geese we want
     numSprites = 5;
 
     level = 1;
@@ -40,14 +44,6 @@ void setup() {
     image(startscreen, 0,0, width, height);
     initScreen();
 
-    // Nested for loop:
-    int [][] example2D = new int[3][5];
-    for (int r = 0; r < example2D.length; r++) {
-      for (int c = 0; c < example2D[0].length; c++) {
-        example2D[r][c] = r + c;
-      }
-    }
-
 } 
 
 // modify and update them in draw().
@@ -57,9 +53,21 @@ void draw() {
     tint(255, 255);
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
+    //colorMode(RGB);
 
-    gameLevel.initLevel(player, level);
-     
+    gameLevel.initLevel(player);
+
+    // 14 ducks to reach the top
+
+    // if (!levelStarted) {
+    //   colorMode(HSB, 360, 100, 100);
+    //   background(186, 15 + (level * 10), 100);
+    //   colorMode(RGB);
+
+    //   gameLevel.initLevel(player);
+    //   levelStarted = true;
+    // }
+    
     player.display();
     gameLevel.display();
     gameLevel.displayScore(player.getScore());
@@ -95,9 +103,13 @@ void draw() {
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              player.setScore(0);
+              // consolidate all into function - endGame()
+              //if (level > 1) {
+              //player.setScore(0);
               player.setAlive(false);
-              player.resetStack();
+              
+              //player.resetStack();
+              //}
               player.resetSpeed();
             }
 
@@ -150,6 +162,7 @@ void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
+          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
@@ -182,11 +195,9 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
-      player.animate();
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
-      player.animate();
     }
     
   }
@@ -235,14 +246,31 @@ void howToScreen(){
  textFont(sub);
  text ("move the pigeon under a duck to form a stack", 700, 320);
  text ("use the arrow keys to move pigeon left and right", 700, 280);
- text ("hitting a goose will end the game ", 700, 360);
+ text ("hitting a goose will remove your whole stack ", 700, 360);
  text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
 TO DO:
-- character select if we have time?
+- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
+  - character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
+  - screen between levels
+
+- unjankify collisions/stacking
+  - lil space between the ground and the lowest duck
+- check class management
+- figure out the font
+- audrey wants to add guns
+- power ups
+- add game over screen!!!
+
+- search method for array
+- nested for loop
+- recursive formula/function
+- execution of how game operates
+- creative twist on history of game
 */
+

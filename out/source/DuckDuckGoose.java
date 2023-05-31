@@ -36,8 +36,7 @@ public void setup() {
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0f, 8.0f);
-    player.setupAnimate();
+    player = new Pigeon(width / 2.0f, 11.0f);
 
     numSprites = 5;
 
@@ -167,6 +166,7 @@ public void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
+          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
@@ -199,11 +199,9 @@ public void keyPressed() {
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
-      player.animate();
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
-      player.animate();
     }
     
   }
@@ -252,17 +250,20 @@ public void howToScreen(){
  textFont(sub);
  text ("move the pigeon under a duck to form a stack", 700, 320);
  text ("use the arrow keys to move pigeon left and right", 700, 280);
- text ("hitting a goose will end the game ", 700, 360);
+ text ("hitting a goose will remove your whole stack ", 700, 360);
  text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
 TO DO:
-- character select if we have time?
+- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
+  - character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
+
 */
+
 public class Duck extends FallingSprite
 {
 
@@ -410,10 +411,6 @@ public class Pigeon extends Sprite {
     private boolean alive;
     private int score;
     private ArrayList<PImage> duckStack;
-    PImage[] sprites;
-    private int numFrames;
-    //float xPos = 0;
-    //float xSpeed = 2;
 
     
     public Pigeon(float x, float speed)
@@ -425,7 +422,6 @@ public class Pigeon extends Sprite {
         this.alive = true;
         this.score = 0;
         duckStack = new ArrayList<PImage>();
-        this.numFrames = 4;
     }
     
     public void display()
@@ -451,19 +447,6 @@ public class Pigeon extends Sprite {
         if (x >= width) {
             x = width;
         }
-    }
-
-    public void setupAnimate() {
-        sprites = new PImage[numFrames];
-        for (int i = 0; i < numFrames; i++) 
-        {
-            sprites[i] = loadImage("sprite" + i + ".png");
-        }
-    }
-
-    public void animate() {
-        int index = frameCount % numFrames;
-        image(sprites[index], x, y, super.getWidth(), super.getHeight());
     }
     
     public void incrementScore() {
@@ -605,11 +588,8 @@ public class PowerUps {
         if (lvl == 1) {
             return 1;
         }
-        else if (level >= 10) {
-            return lvl + calculateDuckNum(lvl - 1);
-        }
         else {
-            return calculateDuckNum(lvl - 1);
+            return lvl + calculateDuckNum(lvl - 1);
         }
     }
 
