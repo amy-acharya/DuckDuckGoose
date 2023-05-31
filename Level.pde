@@ -28,13 +28,11 @@ public class Level {
         text ("score: " + s, 100, 75);
     }
 
-    public void initLevel(Pigeon p) {
+    public void initLevel(Pigeon p, int lvl) {
         noStroke();
-        colorMode(RGB, 255, 255, 255);
-        fill(198, 255, 138);
-        // hardcode for now until I can find a fix
+        colorMode(HSB, 360, 100, 100);
+        fill(89, 46 - (lvl - 1) * 10, 100);
         rect(0, height - 150, width, 250);
-        //rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
     }
 
     public float getFallSpeedMultiplier() {

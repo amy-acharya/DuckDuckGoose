@@ -40,7 +40,8 @@ public void setup() {
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0f, 11.0f);
+    player = new Pigeon(width / 2.0f, 8.0f);
+    player.setupAnimate();
 
     // can be changed depending on how many ducks/geese we want
     numSprites = 5;
@@ -61,6 +62,14 @@ public void setup() {
     image(startscreen, 0,0, width, height);
     initScreen();
 
+    // Nested for loop:
+    int [][] example2D = new int[3][5];
+    for (int r = 0; r < example2D.length; r++) {
+      for (int c = 0; c < example2D[0].length; c++) {
+        example2D[r][c] = r + c;
+      }
+    }
+
 } 
 
 // modify and update them in draw().
@@ -72,7 +81,7 @@ public void draw() {
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
     //colorMode(RGB);
 
-    gameLevel.initLevel(player);
+    gameLevel.initLevel(player, level);
 
     // 14 ducks to reach the top
 
@@ -120,13 +129,9 @@ public void draw() {
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              // consolidate all into function - endGame()
-              //if (level > 1) {
-              //player.setScore(0);
+              player.setScore(0);
               player.setAlive(false);
-              
-              //player.resetStack();
-              //}
+              player.resetStack();
               player.resetSpeed();
             }
 
@@ -179,7 +184,6 @@ public void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
-          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
@@ -212,9 +216,11 @@ public void keyPressed() {
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
+      player.animate();
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
+      player.animate();
     }
     
   }
@@ -263,34 +269,17 @@ public void howToScreen(){
  textFont(sub);
  text ("move the pigeon under a duck to form a stack", 700, 320);
  text ("use the arrow keys to move pigeon left and right", 700, 280);
- text ("hitting a goose will remove your whole stack ", 700, 360);
+ text ("hitting a goose will end the game ", 700, 360);
  text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
 TO DO:
-- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
-  - character select if we have time?
+- character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
-  - screen between levels
-
-- unjankify collisions/stacking
-  - lil space between the ground and the lowest duck
-- check class management
-- figure out the font
-- audrey wants to add guns
-- power ups
-- add game over screen!!!
-
-- search method for array
-- nested for loop
-- recursive formula/function
-- execution of how game operates
-- creative twist on history of game
 */
-
 public class Duck extends FallingSprite
 {
 
@@ -420,13 +409,13 @@ public class Level {
         text ("score: " + s, 100, 75);
     }
 
-    public void initLevel(Pigeon p) {
+    public void initLevel(Pigeon p, int lvl) {
         noStroke();
-        colorMode(RGB, 255, 255, 255);
-        fill(198, 255, 138);
+        colorMode(HSB, 360, 100, 100);
+        fill(89, 46 - (lvl - 1) * 10, 100);
         // hardcode for now until I can find a fix
-        rect(0, height - 150, width, 250);
-        //rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
+        //rect(0, height - 150, width, 250);
+        rect(0, p.getPigeonY() + 100, width, height - p.getPigeonY());
     }
 
     public float getFallSpeedMultiplier() {
@@ -440,6 +429,10 @@ public class Pigeon extends Sprite {
     private boolean alive;
     private int score;
     private ArrayList<PImage> duckStack;
+    PImage[] sprites;
+    private int numFrames;
+    //float xPos = 0;
+    //float xSpeed = 2;
 
     
     public Pigeon(float x, float speed)
@@ -451,6 +444,7 @@ public class Pigeon extends Sprite {
         this.alive = true;
         this.score = 0;
         duckStack = new ArrayList<PImage>();
+        this.numFrames = 4;
     }
     
     public void display()
@@ -476,6 +470,19 @@ public class Pigeon extends Sprite {
         if (x >= width) {
             x = width;
         }
+    }
+
+    public void setupAnimate() {
+        sprites = new PImage[numFrames];
+        for (int i = 0; i < numFrames; i++) 
+        {
+            sprites[i] = loadImage("sprite" + i + ".png");
+        }
+    }
+
+    public void animate() {
+        int index = frameCount % numFrames;
+        image(sprites[index], x, y, super.getWidth(), super.getHeight());
     }
     
     public void incrementScore() {
@@ -617,8 +624,11 @@ public class PowerUps {
         if (lvl == 1) {
             return 1;
         }
-        else {
+        else if (level >= 10) {
             return lvl + calculateDuckNum(lvl - 1);
+        }
+        else {
+            return calculateDuckNum(lvl - 1);
         }
     }
 
