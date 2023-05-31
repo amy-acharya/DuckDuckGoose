@@ -20,6 +20,7 @@ void setup() {
     screenTitle = createFont("Times New Roman", 60, true);
 
     player = new Pigeon(width / 2.0, 8.0);
+    player.setupAnimate();
 
     numSprites = 5;
 
@@ -183,9 +184,11 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == LEFT) {
       player.moveLeft();
+      player.animate();
     }
     else if (keyCode == RIGHT) {
       player.moveRight();
+      player.animate();
     }
     
   }
