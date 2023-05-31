@@ -36,7 +36,7 @@ public void setup() {
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0f, 8.0f);
+    player = new Pigeon(width / 2.0f, 11.0f);
     player.setupAnimate();
 
     numSprites = 5;
@@ -99,21 +99,19 @@ public void draw() {
             tint(255, 0);
             gameOverScreen();
             started = false;
-            geese[i].reset();
-            // player.setScore(0);
-            // player.setAlive(false);
-            // player.resetStack();
-            // player.resetSpeed();
 
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+              //if (level >1) {
               player.setScore(0);
-              player.setAlive(false);
               player.resetStack();
               player.resetSpeed();
+              level = 1;
+              powerUpManager.resetPowerUps();
+              //}
             }
 
         }
@@ -165,7 +163,6 @@ public void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
-          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
@@ -382,7 +379,7 @@ public class Level {
         else {
             fill(0);
         }
-        text ("Level " + num, 100, 50);
+        text ("Level " + level, 100, 50);
     }
 
     public void displayScore(int s) {
@@ -406,7 +403,6 @@ public class Pigeon extends Sprite {
     private float x;
     private float y;
     private float speed;
-    private boolean alive;
     private int score;
     private ArrayList<PImage> duckStack;
     PImage[] sprites;
@@ -421,7 +417,6 @@ public class Pigeon extends Sprite {
         this.x = x;
         this.y = height - 250;
         this.speed = speed; 
-        this.alive = true;
         this.score = 0;
         duckStack = new ArrayList<PImage>();
         this.numFrames = 4;
@@ -475,14 +470,6 @@ public class Pigeon extends Sprite {
     
     public void setScore(int s) {
         score = s;
-    }
-    
-    public boolean isAlive() {
-        return alive;
-    }
-    
-    public void setAlive(boolean a) {
-        alive = a;
     }
 
     public float getPigeonY() {

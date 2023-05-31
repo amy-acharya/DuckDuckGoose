@@ -2,7 +2,6 @@ public class Pigeon extends Sprite {
     private float x;
     private float y;
     private float speed;
-    private boolean alive;
     private int score;
     private ArrayList<PImage> duckStack;
     PImage[] sprites;
@@ -17,7 +16,6 @@ public class Pigeon extends Sprite {
         this.x = x;
         this.y = height - 250;
         this.speed = speed; 
-        this.alive = true;
         this.score = 0;
         duckStack = new ArrayList<PImage>();
         this.numFrames = 4;
@@ -71,14 +69,6 @@ public class Pigeon extends Sprite {
     
     public void setScore(int s) {
         score = s;
-    }
-    
-    public boolean isAlive() {
-        return alive;
-    }
-    
-    public void setAlive(boolean a) {
-        alive = a;
     }
 
     public float getPigeonY() {

@@ -19,7 +19,7 @@ public class Level {
         else {
             fill(0);
         }
-        text ("Level " + num, 100, 50);
+        text ("Level " + level, 100, 50);
     }
 
     public void displayScore(int s) {
