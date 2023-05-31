@@ -64,15 +64,12 @@ public void setup() {
         example2D[r][c] = r + c;
       }
     }
-
-
 } 
 
 // modify and update them in draw().
 public void draw() {
   if (started) {
     
-    tint(255, 255);
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
 
@@ -185,6 +182,8 @@ public void keyPressed() {
   if (!started){
     if (key == ENTER || key == RETURN){
       started = true;
+      noTint();
+      level = 1;
     }
   }
   // h key for how to screen
@@ -207,7 +206,6 @@ public void keyPressed() {
       player.moveRight();
       player.animate();
     }
-    
   }
 }
 
@@ -236,52 +234,34 @@ public void gameOverScreen() {
 }
 
 public void historyScreen(){
-background(218, 255, 63);
-textFont(screenTitle);
-text ("The History of the Pigeon", 700, 200);
-textFont(sub);
-text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
-text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
-text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
-text ("this game is his revenge. ", 700, 400);
-
+  background(218, 255, 63);
+  textFont(screenTitle);
+  text ("The History of the Pigeon", 700, 200);
+  textFont(sub);
+  text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
+  text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
+  text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
+  text ("this game is his revenge. ", 700, 400);
 }
 
 public void howToScreen(){
- background(255, 209, 101);
- textFont(screenTitle);
- text ("How to Play", 700, 200);
- textFont(sub);
- text ("move the pigeon under a duck to form a stack", 700, 320);
- text ("use the arrow keys to move pigeon left and right", 700, 280);
- text ("hitting a goose will remove your whole stack ", 700, 360);
- text ("you will level up once you stack up to the top of the screen ", 700, 400);
+  background(255, 209, 101);
+  textFont(screenTitle);
+  text ("How to Play", 700, 200);
+  textFont(sub);
+  text ("move the pigeon under a duck to form a stack", 700, 320);
+  text ("use the arrow keys to move pigeon left and right", 700, 280);
+  text ("hitting a goose will remove your whole stack ", 700, 360);
+  text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
 
 /*
 TO DO:
-- splash screen w/ three buttons - start, how to play (i), history (h) - creative twist
-  - character select if we have time?
 - animate sprites
 - fancy graphics
   - fade in/out for screens
   - screen between levels
-
-- unjankify collisions/stacking
-  - lil space between the ground and the lowest duck
-- check class management
-- figure out the font
-- audrey wants to add guns
-- power ups
-- add game over screen!!!
-
-- search method for array
-- nested for loop
-- recursive formula/function
-- execution of how game operates
-- creative twist on history of game
 */
-
 public class Duck extends FallingSprite
 {
 
