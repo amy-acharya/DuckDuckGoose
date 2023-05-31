@@ -6,7 +6,6 @@ int numSprites, level;
 PImage startscreen;
 boolean started, isDuckStarted = false;
 Level gameLevel;
-boolean levelStarted = false;
 char h = 104;
 char i = 105;
 PFont title, sub, screenTitle; 
@@ -15,17 +14,13 @@ PowerUps powerUpManager;
 // initialize them in setup().
 
 void setup() {
-    // for (int z = 0; z < PFont.list().length; z++) {
-    //     System.out.println(PFont.list()[z]);
-    // }
-    size(1400, 750); // reserved variables width = 800, height = 600
+    size(1400, 750); 
     title = createFont ("Times New Roman", 80, true);
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0, 11.0);
+    player = new Pigeon(width / 2.0, 8.0);
 
-    // can be changed depending on how many ducks/geese we want
     numSprites = 5;
 
     level = 1;
@@ -41,8 +36,17 @@ void setup() {
     gameLevel = new Level(level, 1.0, numSprites);
     powerUpManager = new PowerUps();
     startscreen = loadImage("farmScreen.jpg");
-    image(startscreen, 0,0, width, height);
+    image(startscreen, 0, 0, width, height);
     initScreen();
+
+    // Nested for loop:
+    int [][] example2D = new int[3][5];
+    for (int r = 0; r < example2D.length; r++) {
+      for (int c = 0; c < example2D[0].length; c++) {
+        example2D[r][c] = r + c;
+      }
+    }
+
 
 } 
 
@@ -53,20 +57,8 @@ void draw() {
     tint(255, 255);
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
-    //colorMode(RGB);
 
-    gameLevel.initLevel(player);
-
-    // 14 ducks to reach the top
-
-    // if (!levelStarted) {
-    //   colorMode(HSB, 360, 100, 100);
-    //   background(186, 15 + (level * 10), 100);
-    //   colorMode(RGB);
-
-    //   gameLevel.initLevel(player);
-    //   levelStarted = true;
-    // }
+    gameLevel.initLevel(player, level);
     
     player.display();
     gameLevel.display();
@@ -93,23 +85,19 @@ void draw() {
             gameOverScreen();
             started = false;
             geese[i].reset();
-            player.setScore(0);
-            player.setAlive(false);
-            player.resetStack();
-            player.resetSpeed();
+            // player.setScore(0);
+            // player.setAlive(false);
+            // player.resetStack();
+            // player.resetSpeed();
 
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              // consolidate all into function - endGame()
-              //if (level > 1) {
-              //player.setScore(0);
+              player.setScore(0);
               player.setAlive(false);
-              
-              //player.resetStack();
-              //}
+              player.resetStack();
               player.resetSpeed();
             }
 
