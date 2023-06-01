@@ -19,7 +19,7 @@ void setup() {
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0, 11.0);
+    player = new Pigeon(width / 2.0, 12.0);
     player.setupAnimate();
 
     numSprites = 5;
@@ -82,6 +82,11 @@ void draw() {
             tint(255, 0);
             gameOverScreen();
             started = false;
+            geese[i].reset();
+            // player.setScore(0);
+            // player.setAlive(false);
+            // player.resetStack();
+            // player.resetSpeed();
 
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
@@ -89,10 +94,12 @@ void draw() {
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
               player.setScore(0);
+              //player.setAlive(false);
               player.resetStack();
               player.resetSpeed();
               level = 1;
               powerUpManager.resetPowerUps();
+               
             }
 
         }
@@ -144,6 +151,7 @@ void draw() {
           break;
         case FREEZE_GEESE:
           powerUpManager.addPowerUp(newPower);
+          // add code
           break;
         case INVINCIBILITY:
           powerUpManager.addPowerUp(newPower);
