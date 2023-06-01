@@ -29,20 +29,20 @@ PFont title, sub, screenTitle;
 PowerUps powerUpManager;
 
 // initialize them in setup().
-
 public void setup() {
     /* size commented out by preprocessor */; 
     title = createFont ("Times New Roman", 80, true);
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0f, 11.0f);
+    player = new Pigeon(width / 2.0f, 10.0f);
     player.setupAnimate();
 
     numSprites = 5;
 
     level = 1;
 
+    // initialize falling sprites
     ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
 
@@ -51,13 +51,14 @@ public void setup() {
         geese[i] = new Goose(2);
     }
 
+    // initialize level and power ups
     gameLevel = new Level(level, 1.0f, numSprites);
     powerUpManager = new PowerUps();
     startscreen = loadImage("farmScreen.jpg");
     image(startscreen, 0, 0, width, height);
     initScreen();
 
-    // Nested for loop:
+    // Nested for loop example:
     int [][] example2D = new int[3][5];
     for (int r = 0; r < example2D.length; r++) {
       for (int c = 0; c < example2D[0].length; c++) {
@@ -70,62 +71,75 @@ public void setup() {
 public void draw() {
   if (started) {
     
+    // set background
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
 
+    // draw ground
     gameLevel.initLevel(player, level);
     
+    // display level and score
     player.display();
     gameLevel.display();
     gameLevel.displayScore(player.getScore());
 
+    // display falling sprites
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
         ducks[i].update();
 
         geese[i].display();
+
+        // freeze geese
         if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
           geese[i].update();
         }
 
+        // collision with duck
         if (player.isTouching(ducks[i])) {
             ducks[i].reset();
             player.addToStack(ducks[i]);
             player.incrementScore();
         }
 
+        // collision with geese
         if (player.isTouching(geese[i])) {
 
+            // show game over screen
             tint(255, 0);
             gameOverScreen();
             started = false;
 
+            // check for power ups
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              //if (level >1) {
               player.setScore(0);
               player.resetStack();
               player.resetSpeed();
               level = 1;
               powerUpManager.resetPowerUps();
-              //}
             }
 
         }
     }
+    // show ducks from duck rain
     powerUpManager.displayExtraSprites();
     if (isDuckStarted) {
         powerUpManager.endDuck(player, level);
     }
 
+    // add to stack
     player.displayStack(ducks[0]); 
   }
   
+  // if leveled up
   if (player.getPigeonY() <= 0) {
     level++;
+
+    // remove power ups
     if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
       powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
     }
@@ -139,6 +153,7 @@ public void draw() {
       geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
     }
 
+    // reset level and stack
     gameLevel = new Level(level, 1 + 0.5f * (level - 1), numSprites);
     player.resetStack();
 
@@ -151,9 +166,9 @@ public void draw() {
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
 
+    // add power up if past level 1
     if (level >= 2) {
       PowerUpType newPower = PowerUpType.getRandomPower();
-      System.out.println(newPower);
       
       switch (newPower) {
         case RAINING_DUCKS:
@@ -206,7 +221,7 @@ public void keyPressed() {
   }
 }
 
-
+// create screens
 public void initScreen() {
   title = createFont("Times New Roman", 80, true);
   textFont(title);
@@ -251,14 +266,6 @@ public void howToScreen(){
   text ("hitting a goose will remove your whole stack ", 700, 360);
   text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
-
-/*
-TO DO:
-- animate sprites
-- fancy graphics
-  - fade in/out for screens
-  - screen between levels
-*/
 public class Duck extends FallingSprite
 {
 
@@ -300,9 +307,11 @@ public class FallingSprite extends Sprite {
         image(image, x, center_y, w, h);
     }
     
+    // cause sprite to fall
     public void update()
     {
         center_y += speed + change_y;
+        // go back to top when touching ground
         if (center_y >= height - 150) {
             reset();
         } 
@@ -314,11 +323,6 @@ public class FallingSprite extends Sprite {
             x = random(0, width);
             speed = random(1, maxSpeed);
         }
-    }
-
-    // TEST THIS FUNCTION
-    public void hide() {
-        tint(255, 0);
     }
 
     public float getSpeed() {
@@ -369,6 +373,7 @@ public class Level {
         this.nSprites = nSprites;
     }
 
+    // display level number
     public void display() {
         PFont lvlText = createFont("Times New Roman", 48, true);
         textFont(lvlText);
@@ -382,12 +387,14 @@ public class Level {
         text ("Level " + level, 100, 50);
     }
 
+    // display score
     public void displayScore(int s) {
         PFont scoreText = createFont("Times New Roman", 36, true);
         textFont(sub);
         text ("score: " + s, 100, 75);
     }
 
+    // draw ground
     public void initLevel(Pigeon p, int lvl) {
         noStroke();
         colorMode(HSB, 360, 100, 100);
@@ -407,9 +414,6 @@ public class Pigeon extends Sprite {
     private ArrayList<PImage> duckStack;
     PImage[] sprites;
     private int numFrames;
-    //float xPos = 0;
-    //float xSpeed = 2;
-
     
     public Pigeon(float x, float speed)
     {
@@ -447,6 +451,7 @@ public class Pigeon extends Sprite {
         }
     }
 
+    // create images for animation
     public void setupAnimate() {
         sprites = new PImage[numFrames];
         for (int i = 0; i < numFrames; i++) 
@@ -455,6 +460,7 @@ public class Pigeon extends Sprite {
         }
     }
 
+    // animate pigeon when moving
     public void animate() {
         int index = frameCount % numFrames;
         image(sprites[index], x, y, super.getWidth(), super.getHeight());
@@ -488,6 +494,7 @@ public class Pigeon extends Sprite {
         speed -= (level - 1);
     }
 
+    // check for collision with sprite
     public boolean isTouching(Sprite s) {
         float xPos = (x + super.getWidth() / 2);
         float yPos = y; 
@@ -501,28 +508,27 @@ public class Pigeon extends Sprite {
             }
         }
         return false;
-
-        // loadPixels(d);
-        // color c = pixels[yPos * width + xPos];
-        // color c = get(xPos, yPos);
     }
     
+    // add new duck to stack
     public void addToStack(Duck d) {
         PImage newDuck = loadImage("duck.png");
         duckStack.add(newDuck);
         y -= d.getHeight();
     }
 
+    // display stacked ducks
     public void displayStack(Duck d) {
         if (duckStack.size() == 0) {
             return;
         }
         for (int i = 0; i < duckStack.size(); i++) {
-            // AAAAAAAAAAAAAAAAAAA
+            // strange math to calculate centered position of duck
             image(duckStack.get(i), x + super.getWidth() / 4, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
         }
     }
 
+    // reset pigeon position and remove duck
     public void resetStack() {
         y = height - 250;
         duckStack.clear();
@@ -562,6 +568,7 @@ public class PowerUps {
         }
     }
 
+    // check if a power is active
     public boolean isPowerActive(PowerUpType p) {
         for (PowerUpType s : activePowerUps) {
             if (p.equals(s)) {
@@ -587,6 +594,7 @@ public class PowerUps {
         activePowerUps.clear();
     }
 
+    // return how many ducks will be added in duck rain
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
@@ -599,6 +607,7 @@ public class PowerUps {
         }
     }
 
+    // add extra ducks
     public boolean rainDucks(float currentMaxSpeed) {
         if (!(isPowerActive(PowerUpType.RAINING_DUCKS))) {
             return false;
@@ -612,6 +621,7 @@ public class PowerUps {
         return true;
     }
 
+    // display extra ducks
     public void displayExtraSprites() {
         for (int i = 0; i < extraSprites.size(); i++) {
             extraSprites.get(i).display();
@@ -624,6 +634,7 @@ public class PowerUps {
         }
     }
 
+    // stop duck rain
     public void endDuck(Pigeon p, int duckLvl) {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             int duckNum = calculateDuckNum(duckLvl);
@@ -634,6 +645,7 @@ public class PowerUps {
         }
     }
 
+    // remove sprites
     public void resetDuckRain() {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             extraSprites.clear();

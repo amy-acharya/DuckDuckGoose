@@ -152,7 +152,6 @@ void draw() {
     // add power up if past level 1
     if (level >= 2) {
       PowerUpType newPower = PowerUpType.getRandomPower();
-      System.out.println(newPower);
       
       switch (newPower) {
         case RAINING_DUCKS:
