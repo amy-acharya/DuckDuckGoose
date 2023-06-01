@@ -9,6 +9,7 @@ public class Level {
         this.nSprites = nSprites;
     }
 
+    // display level number
     public void display() {
         PFont lvlText = createFont("Times New Roman", 48, true);
         textFont(lvlText);
@@ -22,12 +23,14 @@ public class Level {
         text ("Level " + level, 100, 50);
     }
 
+    // display score
     public void displayScore(int s) {
         PFont scoreText = createFont("Times New Roman", 36, true);
         textFont(sub);
         text ("score: " + s, 100, 75);
     }
 
+    // draw ground
     public void initLevel(Pigeon p, int lvl) {
         noStroke();
         colorMode(HSB, 360, 100, 100);

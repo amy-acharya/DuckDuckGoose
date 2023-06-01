@@ -26,9 +26,11 @@ public class FallingSprite extends Sprite {
         image(image, x, center_y, w, h);
     }
     
+    // cause sprite to fall
     public void update()
     {
         center_y += speed + change_y;
+        // go back to top when touching ground
         if (center_y >= height - 150) {
             reset();
         } 
@@ -40,11 +42,6 @@ public class FallingSprite extends Sprite {
             x = random(0, width);
             speed = random(1, maxSpeed);
         }
-    }
-
-    // TEST THIS FUNCTION
-    public void hide() {
-        tint(255, 0);
     }
 
     public float getSpeed() {

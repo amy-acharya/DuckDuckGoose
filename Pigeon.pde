@@ -6,9 +6,6 @@ public class Pigeon extends Sprite {
     private ArrayList<PImage> duckStack;
     PImage[] sprites;
     private int numFrames;
-    //float xPos = 0;
-    //float xSpeed = 2;
-
     
     public Pigeon(float x, float speed)
     {
@@ -46,6 +43,7 @@ public class Pigeon extends Sprite {
         }
     }
 
+    // create images for animation
     public void setupAnimate() {
         sprites = new PImage[numFrames];
         for (int i = 0; i < numFrames; i++) 
@@ -54,6 +52,7 @@ public class Pigeon extends Sprite {
         }
     }
 
+    // animate pigeon when moving
     public void animate() {
         int index = frameCount % numFrames;
         image(sprites[index], x, y, super.getWidth(), super.getHeight());
@@ -87,6 +86,7 @@ public class Pigeon extends Sprite {
         speed -= (level - 1);
     }
 
+    // check for collision with sprite
     public boolean isTouching(Sprite s) {
         float xPos = (x + super.getWidth() / 2);
         float yPos = y; 
@@ -100,28 +100,27 @@ public class Pigeon extends Sprite {
             }
         }
         return false;
-
-        // loadPixels(d);
-        // color c = pixels[yPos * width + xPos];
-        // color c = get(xPos, yPos);
     }
     
+    // add new duck to stack
     public void addToStack(Duck d) {
         PImage newDuck = loadImage("duck.png");
         duckStack.add(newDuck);
         y -= d.getHeight();
     }
 
+    // display stacked ducks
     public void displayStack(Duck d) {
         if (duckStack.size() == 0) {
             return;
         }
         for (int i = 0; i < duckStack.size(); i++) {
-            // AAAAAAAAAAAAAAAAAAA
+            // strange math to calculate centered position of duck
             image(duckStack.get(i), x + super.getWidth() / 4, y + (d.getHeight() * (i + 1)) + super.getHeight() / 2, d.getWidth(), d.getHeight());
         }
     }
 
+    // reset pigeon position and remove duck
     public void resetStack() {
         y = height - 250;
         duckStack.clear();

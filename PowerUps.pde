@@ -20,6 +20,7 @@ public class PowerUps {
         }
     }
 
+    // check if a power is active
     public boolean isPowerActive(PowerUpType p) {
         for (PowerUpType s : activePowerUps) {
             if (p.equals(s)) {
@@ -45,6 +46,7 @@ public class PowerUps {
         activePowerUps.clear();
     }
 
+    // return how many ducks will be added in duck rain
     public int calculateDuckNum(int lvl) {
         if (lvl == 1) {
             return 1;
@@ -57,6 +59,7 @@ public class PowerUps {
         }
     }
 
+    // add extra ducks
     public boolean rainDucks(float currentMaxSpeed) {
         if (!(isPowerActive(PowerUpType.RAINING_DUCKS))) {
             return false;
@@ -70,6 +73,7 @@ public class PowerUps {
         return true;
     }
 
+    // display extra ducks
     public void displayExtraSprites() {
         for (int i = 0; i < extraSprites.size(); i++) {
             extraSprites.get(i).display();
@@ -82,6 +86,7 @@ public class PowerUps {
         }
     }
 
+    // stop duck rain
     public void endDuck(Pigeon p, int duckLvl) {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             int duckNum = calculateDuckNum(duckLvl);
@@ -92,6 +97,7 @@ public class PowerUps {
         }
     }
 
+    // remove sprites
     public void resetDuckRain() {
         if (isPowerActive(PowerUpType.RAINING_DUCKS)) {
             extraSprites.clear();
