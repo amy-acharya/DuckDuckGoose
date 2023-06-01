@@ -12,20 +12,20 @@ PFont title, sub, screenTitle;
 PowerUps powerUpManager;
 
 // initialize them in setup().
-
 void setup() {
     size(1400, 750); 
     title = createFont ("Times New Roman", 80, true);
     sub = createFont("Times New Roman", 25, true);
     screenTitle = createFont("Times New Roman", 60, true);
 
-    player = new Pigeon(width / 2.0, 12.0);
+    player = new Pigeon(width / 2.0, 10.0);
     player.setupAnimate();
 
     numSprites = 5;
 
     level = 1;
 
+    // initialize falling sprites
     ducks = new Duck[numSprites];
     geese = new Goose[numSprites];
 
@@ -34,13 +34,14 @@ void setup() {
         geese[i] = new Goose(2);
     }
 
+    // initialize level and power ups
     gameLevel = new Level(level, 1.0, numSprites);
     powerUpManager = new PowerUps();
     startscreen = loadImage("farmScreen.jpg");
     image(startscreen, 0, 0, width, height);
     initScreen();
 
-    // Nested for loop:
+    // Nested for loop example:
     int [][] example2D = new int[3][5];
     for (int r = 0; r < example2D.length; r++) {
       for (int c = 0; c < example2D[0].length; c++) {
@@ -52,49 +53,51 @@ void setup() {
 // modify and update them in draw().
 void draw() {
   if (started) {
-    
+    // set background
     colorMode(HSB, 360, 100, 100);
     background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
 
+    // draw ground
     gameLevel.initLevel(player, level);
     
+    // display level and score
     player.display();
     gameLevel.display();
     gameLevel.displayScore(player.getScore());
 
+    // display falling sprites
     for (int i = 0; i < numSprites; i++) {
         ducks[i].display();
         ducks[i].update();
 
         geese[i].display();
+
+        // freeze geese
         if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
           geese[i].update();
         }
 
+        // collision with duck
         if (player.isTouching(ducks[i])) {
             ducks[i].reset();
             player.addToStack(ducks[i]);
             player.incrementScore();
         }
 
+        // collision with goose
         if (player.isTouching(geese[i])) {
 
             tint(255, 0);
             gameOverScreen();
             started = false;
-            geese[i].reset();
-            // player.setScore(0);
-            // player.setAlive(false);
-            // player.resetStack();
-            // player.resetSpeed();
 
+            // check for power ups
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
               geese[i].reset();
             }
 
             if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
               player.setScore(0);
-              //player.setAlive(false);
               player.resetStack();
               player.resetSpeed();
               level = 1;
@@ -104,16 +107,21 @@ void draw() {
 
         }
     }
+
+    // show ducks from duck rain
     powerUpManager.displayExtraSprites();
     if (isDuckStarted) {
         powerUpManager.endDuck(player, level);
     }
 
+    // add ducks to stack
     player.displayStack(ducks[0]); 
   }
   
   if (player.getPigeonY() <= 0) {
     level++;
+
+    // remove power ups
     if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
       powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
     }
@@ -127,6 +135,7 @@ void draw() {
       geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
     }
 
+    // reset level and stack
     gameLevel = new Level(level, 1 + 0.5 * (level - 1), numSprites);
     player.resetStack();
 
@@ -139,6 +148,7 @@ void draw() {
     // increase pigeon speed
     player.setSpeed(player.getSpeed() + 1);
 
+    // add power up if past level 1
     if (level >= 2) {
       PowerUpType newPower = PowerUpType.getRandomPower();
       
@@ -194,7 +204,7 @@ void keyPressed() {
   }
 }
 
-
+// create screens
 void initScreen() {
   title = createFont("Times New Roman", 80, true);
   textFont(title);
@@ -239,11 +249,3 @@ void howToScreen(){
   text ("hitting a goose will remove your whole stack ", 700, 360);
   text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
-
-/*
-TO DO:
-- animate sprites
-- fancy graphics
-  - fade in/out for screens
-  - screen between levels
-*/
