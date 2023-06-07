@@ -44,132 +44,130 @@ void setup() {
     // Nested for loop example:
     int [][] example2D = new int[3][5];
     for (int r = 0; r < example2D.length; r++) {
-      for (int c = 0; c < example2D[0].length; c++) {
-        example2D[r][c] = r + c;
-      }
+        for (int c = 0; c < example2D[0].length; c++) {
+            example2D[r][c] = r + c;
+        }
     }
 } 
 
 // modify and update them in draw().
 void draw() {
-  if (started) {
-    // set background
-    colorMode(HSB, 360, 100, 100);
-    background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
+    if (started) {
+        // set background
+        colorMode(HSB, 360, 100, 100);
+        background(186, 15 + (level * 20), 100 - ((level - 1) * 10));
 
-    // draw ground
-    gameLevel.initLevel(player, level);
-    
-    // display level and score
-    player.display();
-    gameLevel.display();
-    gameLevel.displayScore(player.getScore());
+        // draw ground
+        gameLevel.initLevel(player, level);
+        
+        // display level and score
+        player.display();
+        gameLevel.display();
+        gameLevel.displayScore(player.getScore());
 
-    // display falling sprites
-    for (int i = 0; i < numSprites; i++) {
-        ducks[i].display();
-        ducks[i].update();
+        // display falling sprites
+        for (int i = 0; i < numSprites; i++) {
+            ducks[i].display();
+            ducks[i].update();
 
-        geese[i].display();
+            geese[i].display();
 
-        // freeze geese
-        if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
-          geese[i].update();
-        }
-
-        // collision with duck
-        if (player.isTouching(ducks[i])) {
-            ducks[i].reset();
-            player.addToStack(ducks[i]);
-            player.incrementScore();
-        }
-
-        // collision with goose
-        if (player.isTouching(geese[i])) {
-
-            tint(255, 0);
-            gameOverScreen();
-            started = false;
-
-            // check for power ups
+            // freeze geese
             if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
-              geese[i].reset();
+                geese[i].update();
             }
 
-            if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-              player.setScore(0);
-              player.resetStack();
-              player.resetSpeed();
-              level = 1;
-              powerUpManager.resetPowerUps();
-               
+            // collision with duck
+            if (player.isTouching(ducks[i])) {
+                ducks[i].reset();
+                player.addToStack(ducks[i]);
+                player.incrementScore();
             }
 
+            // collision with goose
+            if (player.isTouching(geese[i])) {
+
+                // check for power ups
+                if (!powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+                    geese[i].reset();
+                }
+
+                if (!powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+                    tint(255, 0);
+                    gameOverScreen();
+                    started = false;
+
+                    player.setScore(0);
+                    player.resetStack();
+                    player.resetSpeed();
+                    level = 1;
+                    powerUpManager.resetPowerUps();
+                }
+            }
+        }
+
+        // show ducks from duck rain
+        powerUpManager.displayExtraSprites();
+        if (isDuckStarted) {
+            powerUpManager.endDuck(player, level);
+        }
+
+        // add ducks to stack
+        player.displayStack(ducks[0]); 
+    }
+    
+    if (player.getPigeonY() <= 0) {
+        level++;
+
+        // remove power ups
+        if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
+            powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
+        }
+        if (powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
+            powerUpManager.removePowerUp(PowerUpType.FREEZE_GEESE);
+        }
+
+        // reset speed
+        for (int i = 0; i < numSprites; i++) {
+            ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+            geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
+        }
+
+        // reset level and stack
+        gameLevel = new Level(level, 1 + 0.5 * (level - 1), numSprites);
+        player.resetStack();
+
+        // update speed
+        for (int i = 0; i < numSprites; i++) {
+            ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+            geese[i].setMaxSpeed(geese[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
+        }
+
+        // increase pigeon speed
+        player.setSpeed(player.getSpeed() + 1);
+
+        // add power up if past level 1
+        if (level >= 2) {
+            PowerUpType newPower = PowerUpType.getRandomPower();
+            
+            switch (newPower) {
+                case RAINING_DUCKS:
+                    powerUpManager.resetDuckRain();
+                    powerUpManager.addPowerUp(newPower);
+                    isDuckStarted = powerUpManager.rainDucks(ducks[0].getMaxSpeed()); 
+                    break;
+                case FREEZE_GEESE:
+                    powerUpManager.addPowerUp(newPower);
+                // add code
+                    break;
+                case INVINCIBILITY:
+                    powerUpManager.addPowerUp(newPower);
+                    break;
+                case NONE:
+                    powerUpManager.resetPowerUps();
+            }
         }
     }
-
-    // show ducks from duck rain
-    powerUpManager.displayExtraSprites();
-    if (isDuckStarted) {
-        powerUpManager.endDuck(player, level);
-    }
-
-    // add ducks to stack
-    player.displayStack(ducks[0]); 
-  }
-  
-  if (player.getPigeonY() <= 0) {
-    level++;
-
-    // remove power ups
-    if (powerUpManager.isPowerActive(PowerUpType.INVINCIBILITY)) {
-      powerUpManager.removePowerUp(PowerUpType.INVINCIBILITY);
-    }
-    if (powerUpManager.isPowerActive(PowerUpType.FREEZE_GEESE)) {
-      powerUpManager.removePowerUp(PowerUpType.FREEZE_GEESE);
-    }
-
-    // reset speed
-    for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() / gameLevel.getFallSpeedMultiplier());
-    }
-
-    // reset level and stack
-    gameLevel = new Level(level, 1 + 0.5 * (level - 1), numSprites);
-    player.resetStack();
-
-    // update speed
-    for (int i = 0; i < numSprites; i++) {
-      ducks[i].setMaxSpeed(ducks[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
-      geese[i].setMaxSpeed(geese[i].getMaxSpeed() * gameLevel.getFallSpeedMultiplier());
-    }
-
-    // increase pigeon speed
-    player.setSpeed(player.getSpeed() + 1);
-
-    // add power up if past level 1
-    if (level >= 2) {
-      PowerUpType newPower = PowerUpType.getRandomPower();
-      
-      switch (newPower) {
-        case RAINING_DUCKS:
-          powerUpManager.resetDuckRain();
-          powerUpManager.addPowerUp(newPower);
-          isDuckStarted = powerUpManager.rainDucks(ducks[0].getMaxSpeed()); 
-          break;
-        case FREEZE_GEESE:
-          powerUpManager.addPowerUp(newPower);
-          // add code
-          break;
-        case INVINCIBILITY:
-          powerUpManager.addPowerUp(newPower);
-          break;
-        case NONE:
-          powerUpManager.resetPowerUps();
-      }
-    }
-  }
 }
 
 // control pigeon using arrow keys
