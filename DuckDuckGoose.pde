@@ -172,78 +172,78 @@ void draw() {
 
 // control pigeon using arrow keys
 void keyPressed() {
-  if (!started){
-    if (key == ENTER || key == RETURN){
-      started = true;
-      noTint();
-      level = 1;
+    if (!started){
+        if (key == ENTER || key == RETURN){
+            started = true;
+            noTint();
+            level = 1;
+        }
     }
-  }
-  // h key for how to screen
-  // i key for game info screen
-   if (key == h){
-      howToScreen();
-      started = false;
-  }
-  if (key == i){
-      historyScreen();
-      started = false;
-  }
+    // h key for how to screen
+    // i key for game info screen
+    if (key == h){
+        howToScreen();
+        started = false;
+    }
+    if (key == i){
+        historyScreen();
+        started = false;
+    }
 
-  if (key == CODED) {
-    if (keyCode == LEFT) {
-      player.moveLeft();
-      player.animate();
+    if (key == CODED) {
+        if (keyCode == LEFT) {
+            player.moveLeft();
+            player.animate();
+        }
+        else if (keyCode == RIGHT) {
+            player.moveRight();
+            player.animate();
+        }
     }
-    else if (keyCode == RIGHT) {
-      player.moveRight();
-      player.animate();
-    }
-  }
 }
 
 // create screens
 void initScreen() {
-  title = createFont("Times New Roman", 80, true);
-  textFont(title);
-  textAlign(CENTER);
-  fill(0);
-  text ("Duck Duck Goose", 950, 200);
-  textFont(sub);
-  text ("press enter to start", 950, 255);
-  textSize(15);
-  text ("press h to learn how to play", 1000, 285);
-  text ("press i for history of the game ", 1005, 305);
+    title = createFont("Times New Roman", 80, true);
+    textFont(title);
+    textAlign(CENTER);
+    fill(0);
+    text ("Duck Duck Goose", 950, 200);
+    textFont(sub);
+    text ("press enter to start", 950, 255);
+    textSize(15);
+    text ("press h to learn how to play", 1000, 285);
+    text ("press i for history of the game ", 1005, 305);
 }
 
 void gameOverScreen() {
-  background(0);
-  textFont(title);
-  fill(255);
-  text ("Game Over", 700, 300);
-  textFont(sub);
-  text("your score was " + player.getScore(), 700, 360);
-  text ("press ENTER to play again", 700, 410);
+    background(0);
+    textFont(title);
+    fill(255);
+    text ("Game Over", 700, 300);
+    textFont(sub);
+    text("your score was " + player.getScore(), 700, 360);
+    text ("press ENTER to play again", 700, 410);
 }
 
 void historyScreen(){
-  background(218, 255, 63);
-  textFont(screenTitle);
-  text ("The History of the Pigeon", 700, 200);
-  textFont(sub);
-  text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
-  text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
-  text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
-  text ("this game is his revenge. ", 700, 400);
+    background(218, 255, 63);
+    textFont(screenTitle);
+    text ("The History of the Pigeon", 700, 200);
+    textFont(sub);
+    text ("for years and years, kids have been sitting in a circle tapping heads", 700, 280);
+    text ("the ducks and geese, having heard their names, came to watch and soon joined in on the merry game ", 700, 320);
+    text ("on the side lines, poor pigeon watched, wishing to be included in all the fun", 700, 360);
+    text ("this game is his revenge. ", 700, 400);
 }
 
 void howToScreen(){
-  background(255, 209, 101);
-  textFont(screenTitle);
-  text ("How to Play", 700, 200);
-  textFont(sub);
-  text ("move the pigeon under a duck to form a stack", 700, 320);
-  text ("use the arrow keys to move pigeon left and right", 700, 280);
-  text ("hitting a goose will remove your whole stack ", 700, 360);
-  text ("you will level up once you stack up to the top of the screen ", 700, 400);
+    background(255, 209, 101);
+    textFont(screenTitle);
+    text ("How to Play", 700, 200);
+    textFont(sub);
+    text ("move the pigeon under a duck to form a stack", 700, 320);
+    text ("use the arrow keys to move pigeon left and right", 700, 280);
+    text ("hitting a goose will remove your whole stack ", 700, 360);
+    text ("you will level up once you stack up to the top of the screen ", 700, 400);
 }
